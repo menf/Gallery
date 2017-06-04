@@ -19,6 +19,7 @@ namespace Gallery
             _canExecute = true;
         }
         public event PropertyChangedEventHandler PropertyChanged = null;
+        private Uri filepath;
         private bool _canExecute;
         private ICommand AddToFavourites { get; set; }
 
@@ -32,7 +33,18 @@ namespace Gallery
             }
         }
 
-        private Image _WorkspaceImage = null;
+        private BitmapSource _WorkspaceImage = null;
+        public BitmapSource WorkspaceImage
+        {
+            get
+            {
+                return _WorkspaceImage;
+            }
+            set
+            {
+                _WorkspaceImage = value;
+            }
+        }
         private string _FirstName = null;
         public string FirstName
         {
@@ -67,12 +79,13 @@ namespace Gallery
         {
             Debug.WriteLine("OPEN");
             OpenFileDialog openfiledialog = new OpenFileDialog();
-            openfiledialog.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
+            openfiledialog.Filter = "All Graphics Types|*.bmp;*.jpg;*.jpeg;*.png;*.tif;*.tiff|"+"JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg|GIF Files (*.gif)|*.gif";
             openfiledialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             openfiledialog.Title = "Please select an image file.";
             if (openfiledialog.ShowDialog() == DialogResult.OK)
             {
-                //pozniej
+                filepath = new Uri(openfiledialog.FileName);
+                WorkspaceImage = new BitmapImage(filepath);
             }
         }
         private void Dummy()
