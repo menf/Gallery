@@ -18,7 +18,7 @@
         <local:ToolsMenu Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Width="{Binding Width, ElementName=window}"></local:ToolsMenu>
             <Grid Grid.Row="1" Grid.Column="0">
             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Horizontal">
-                <Button Margin="5" Height="30" Name="RemoveFromFavouritesButton">
+                <Button  Margin="5" Height="30" Name="RemoveFromFavouritesButton">
                     <StackPanel Orientation="Horizontal" Width="{Binding Width, ElementName=RemoveFromFavouritesButton}">
                         <Label>Remove</Label>
                         <Image HorizontalAlignment="Left" Source="Icons/Minus.png" Width="{Binding Height, ElementName=RemoveFromFavouritesButton}" Height="{Binding Height, ElementName=RemoveFromFavouritesButton}" />
