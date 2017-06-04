@@ -15,7 +15,12 @@
             <RowDefinition Height="80" />
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <local:ToolsMenu Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  Width="{Binding Width, ElementName=window}"></local:ToolsMenu>
+        <local:ToolsMenu Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                         Width="{Binding Width, ElementName=window}">
+            <local:ToolsMenu.DataContext>
+                <local:ViewModel/>
+            </local:ToolsMenu.DataContext>
+        </local:ToolsMenu>
             <Grid Grid.Row="1" Grid.Column="0">
             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Horizontal">
                 <Button  Margin="5" Height="30" Name="RemoveFromFavouritesButton">

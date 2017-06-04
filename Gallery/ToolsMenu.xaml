@@ -14,8 +14,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
-            <Button Command="{Binding OpenFile,RelativeSource={
-        RelativeSource AncestorType={x:Type local:ToolsMenu}}}" Margin="5" Height="30" Name="OpenFileButton">
+            <Button Command="{Binding OpenFile}" Margin="5" Height="30" Name="OpenFileButton">
                 <StackPanel Orientation="Horizontal" Width="{Binding Width, ElementName=OpenFileButton}">
                     <Image HorizontalAlignment="Left" Source="Icons/open.png" Width="{Binding Height, ElementName=OpenFileButton}" Height="{Binding Height, ElementName=OpenFileButton}" />
                     <Label>Open File</Label>
