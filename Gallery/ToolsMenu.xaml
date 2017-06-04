@@ -1,0 +1,69 @@
+﻿<UserControl x:Class="Gallery.ToolsMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gallery"
+             mc:Ignorable="d" 
+             d:DesignHeight="80" d:DesignWidth="550">
+
+    <Grid Background="LightGray">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Button Margin="5" Height="30" Name="OpenFileButton">
+                <StackPanel Orientation="Horizontal" Width="{Binding Width, ElementName=OpenFileButton}">
+                    <Image HorizontalAlignment="Left" Source="Icons/open.png" Width="{Binding Height, ElementName=OpenFileButton}" Height="{Binding Height, ElementName=OpenFileButton}" />
+                    <Label>Open File</Label>
+                </StackPanel>
+            </Button>
+            <Button Margin="5" Height="30" Name="SaveFileButton">
+                <StackPanel Orientation="Horizontal" Width="{Binding Width, ElementName=SaveFileButton}">
+                    <Image HorizontalAlignment="Left" Source="Icons/Save-as-icon.png" Width="{Binding Height, ElementName=SaveFileButton}" Height="{Binding Height, ElementName=SaveFileButton}" />
+                    <Label>Save File</Label>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <StackPanel Grid.Column="1" >
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="5" Name="RectangleButton" Height="30" Width="35">
+                    <Image Source="Icons/Rectangle.png"  Width="{Binding Height, ElementName=RectangleButton}" Height="{Binding Height, ElementName=RectangleButton}" />
+                </Button>
+                <Button Margin="5" Name="EllipseButton" Height="30" Width="35">
+                    <Image Source="Icons/Ellipse.png"  Width="{Binding Height, ElementName=EllipseButton}" Height="{Binding Height, ElementName=EllipseButton}" />
+                </Button>
+                <Button Margin="5" Name="TriangleButton" Height="30" Width="35">
+                    <Image Source="Icons/Triangle.png"  Width="{Binding Height, ElementName=TriangleButton}" Height="{Binding Height, ElementName=TriangleButton}" />
+                </Button>
+                <Button Margin="5" Name="LineButton" Height="30" Width="35">
+                    <Image Source="Icons/Line.png"  Width="{Binding Height, ElementName=LineButton}" Height="{Binding Height, ElementName=LineButton}" />
+                </Button>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button Margin="5" Name="EraserButton" Height="30" Width="35">
+                    <Image Source="Icons/eraser.png"  Width="{Binding Height, ElementName=EraserButton}" Height="{Binding Height, ElementName=EraserButton}" />
+                </Button>
+                <Button Margin="5" Name="PencilButton" Height="30" Width="35">
+                    <Image Source="Icons/Pencil.png"  Width="{Binding Height, ElementName=PencilButton}" Height="{Binding Height, ElementName=PencilButton}" />
+                </Button>
+                <Button Margin="5" Name="BrushButton" Height="30" Width="35">
+                    <Image Source="Icons/Brush.png"  Width="{Binding Height, ElementName=BrushButton}" Height="{Binding Height, ElementName=BrushButton}" />
+                </Button>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="2" >
+            <StackPanel Orientation="Horizontal">
+                <Label VerticalAlignment="Top">Zoom</Label>
+                <Slider Width="200" Margin="0 3 0 0">
+                </Slider>
+            </StackPanel>
+            <StackPanel Margin="5" Orientation="Horizontal">
+                <Label Height="45" Width="45" Background="Black" />
+                <Button Margin="10 0 0 0">Pick a color</Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
