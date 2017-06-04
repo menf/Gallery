@@ -18,7 +18,7 @@ namespace Gallery
             Debug.WriteLine("INIT VIEWMODEL");
             _canExecute = true;
         }
-        public event PropertyChangedEventHandler PropertyChanged = null;
+        public event PropertyChangedEventHandler PropertyChanged ;
         private Uri filepath;
         private bool _canExecute;
         private ICommand AddToFavourites { get; set; }
@@ -33,16 +33,20 @@ namespace Gallery
             }
         }
 
-        private BitmapSource _WorkspaceImage = null;
-        public BitmapSource WorkspaceImage
+        public Uri _WorkspaceImage = new Uri("C:/Users/menf/Pictures/Przechwytywanie.png");
+        public Uri WorkspaceImage
         {
             get
             {
+                Debug.WriteLine("get obraz");
                 return _WorkspaceImage;
+              
             }
             set
             {
-                _WorkspaceImage = value;
+                Debug.WriteLine("Niby ustawiam obraz");
+                this._WorkspaceImage = value;
+                RaisePropertyChanged(this,"WorkspaceImage");
             }
         }
         private string _FirstName = null;
@@ -55,7 +59,7 @@ namespace Gallery
             set
             {
                 _FirstName = null;
-                OnPropertyChanged("FirstName");
+                RaisePropertyChanged(this,"FirstName");
             }
         }
         private string _LastName = null;
@@ -68,7 +72,7 @@ namespace Gallery
             set
             {
                 _LastName = null;
-                OnPropertyChanged("LastName");
+                RaisePropertyChanged(this,"LastName");
             }
         }
         private void Save()
@@ -84,19 +88,24 @@ namespace Gallery
             openfiledialog.Title = "Please select an image file.";
             if (openfiledialog.ShowDialog() == DialogResult.OK)
             {
-                filepath = new Uri(openfiledialog.FileName);
-                WorkspaceImage = new BitmapImage(filepath);
+                filepath = new Uri(openfiledialog.FileName, UriKind.RelativeOrAbsolute);
+                WorkspaceImage = filepath;
             }
         }
         private void Dummy()
         {
             // logika odpowiedzialna za cos
         }
-        virtual protected void OnPropertyChanged(string propName)
+        protected void RaisePropertyChanged(object sender, string propertyName)
         {
             if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
+            {
+                Debug.WriteLine("PROPERTY CHANGED : SENDER/NAME"+sender.ToString()+"/"+propertyName);
+
+                PropertyChanged(sender, new PropertyChangedEventArgs(propertyName));
+            }
         }
+
 
 
     }
