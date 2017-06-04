@@ -6,9 +6,6 @@
         xmlns:local="clr-namespace:Gallery"
         mc:Ignorable="d"
         Title="Gallery" Height="350" Width="525">
-    <Window.DataContext>
-        <local:ViewModel x:Name="_model" />
-    </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="235"/>
@@ -20,9 +17,6 @@
         </Grid.RowDefinitions>
         <local:ToolsMenu Grid.ColumnSpan="2" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                          Width="{Binding Width, ElementName=window}">
-            <local:ToolsMenu.DataContext>
-                <local:ViewModel/>
-            </local:ToolsMenu.DataContext>
         </local:ToolsMenu>
             <Grid Grid.Row="1" Grid.Column="0">
             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Horizontal">
@@ -40,10 +34,6 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-                <StackPanel>
-    <Image Source="{Binding DisplayedImagePath}" />
-    <TextBlock Text="{Binding DisplayedImagePath}" />
-</StackPanel>
             <ScrollViewer Margin="0 40 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <ListView Margin="5 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -60,11 +50,9 @@
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <Canvas Name="canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                         AllowDrop="True" >
-                    <Image Source="{Binding WorkspaceImage}" Stretch="Fill" >
-                    </Image>
+                    <Image   Source="{Binding WorkspaceImage}" Width="{Binding Path=ActualWidth, ElementName=canvas}" Height="{Binding Path=ActualHeight, ElementName=canvas}" Stretch="Uniform" />
                 </Canvas>
             </ScrollViewer>
         </Grid>
-
     </Grid>
 </Window>

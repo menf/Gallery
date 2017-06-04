@@ -33,7 +33,7 @@ namespace Gallery
             }
         }
 
-        public Uri _WorkspaceImage = new Uri("C:/Users/menf/Pictures/Przechwytywanie.png");
+        private Uri _WorkspaceImage = new Uri("C:/Users/menf/Pictures/Przechwytywanie.png");
         public Uri WorkspaceImage
         {
             get
@@ -45,7 +45,7 @@ namespace Gallery
             set
             {
                 Debug.WriteLine("Niby ustawiam obraz");
-                this._WorkspaceImage = value;
+                _WorkspaceImage = value;
                 RaisePropertyChanged(this,"WorkspaceImage");
             }
         }
