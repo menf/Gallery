@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Forms;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace Gallery
 {
@@ -21,10 +22,12 @@ namespace Gallery
             _canExecute = true;
             Kolor = Colors.Black;
             KolorBrush = new SolidColorBrush(Colors.Black);
+            ListboxItems = new ObservableCollection<Item>();
         }
-
+        public ObservableCollection<Item> ListboxItems;
         public event PropertyChangedEventHandler PropertyChanged ;
         private Uri filepath;
+        private string name;
         private Color _kolor;
         public Color Kolor
         {
@@ -41,6 +44,9 @@ namespace Gallery
                 RaisePropertyChanged(this, "Kolor");
             }
         }
+
+   
+
         private SolidColorBrush _kolorbrush;
         public SolidColorBrush KolorBrush
         {
@@ -57,6 +63,8 @@ namespace Gallery
                 RaisePropertyChanged(this, "KolorBrush");
             }
         }
+
+
         private bool _canExecute;
         private bool _canExecuteS=false;
 
@@ -158,7 +166,8 @@ namespace Gallery
             openfiledialog.Title = "Please select an image file.";
             if (openfiledialog.ShowDialog() == DialogResult.OK)
             {
-                filepath = new Uri(openfiledialog.FileName, UriKind.RelativeOrAbsolute);
+                name = openfiledialog.FileName;
+                filepath = new Uri(name, UriKind.RelativeOrAbsolute);
                 WorkspaceImage = filepath;
                 Debug.WriteLine("filepath" + filepath);
                 Debug.WriteLine("absolutepath"+filepath.AbsolutePath);
@@ -179,7 +188,7 @@ namespace Gallery
 
        private void AddtoFavourites()
         {
-           
+            ListboxItems.Add(new Item(name, filepath));
         }
 
         protected void RaisePropertyChanged(object sender, string propertyName)

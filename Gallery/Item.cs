@@ -9,13 +9,12 @@ namespace Gallery
    public class Item
     {
         public string Name { get; set; }
-        public string Dir { get; set; }
         public string ImagePath { get; set; }
 
          public Item(string name,Uri uri)
         {
             Name = name;
-          //  ImagePath=
+            ImagePath = uri.ToString();
         }
     }
 }

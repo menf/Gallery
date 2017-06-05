@@ -30,7 +30,7 @@
                     </StackPanel>
                 </Button>
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center" Height="25">Favourites</Label>
-                <Button Margin="5" Height="30" Name="AddToFavouritesButton">
+                <Button Command="{Binding AddtoFav}" Margin="5" Height="30" Name="AddToFavouritesButton">
                     <StackPanel Orientation="Horizontal" Width="{Binding Width, ElementName=AddToFavouritesButton}">
                         <Image HorizontalAlignment="Left" Source="Icons/Plus.png" Width="{Binding Height, ElementName=AddToFavouritesButton}" Height="{Binding Height, ElementName=AddToFavouritesButton}" />
                         <Label>Add</Label>
@@ -39,7 +39,7 @@
             </StackPanel>
             <ScrollViewer Margin="0 40 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <ListView Margin="5 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ListView ItemsSource="{Binding ListboxItems}" Margin="5 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4">
@@ -53,7 +53,6 @@
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Path=Name}"/>
-                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=Dir}"/>
                                     <Image Margin="0,0,5,0" Grid.RowSpan="2" MaxHeight="64" Source="{Binding Path=ImagePath,Converter={StaticResource ImagePathConverter}}"/>
                                 </Grid>
                             </Border>
