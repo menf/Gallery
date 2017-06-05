@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Forms;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
+using System.Windows.Shapes;
 
 namespace Gallery
 {
@@ -66,7 +67,7 @@ namespace Gallery
 
 
         private bool _canExecute;
-        private bool _canExecuteS=false;
+        private bool _canExecuteS=true;
 
         private ICommand _openFile;
         public ICommand OpenFile
@@ -125,38 +126,38 @@ namespace Gallery
                 RaisePropertyChanged(this,"WorkspaceImage");
             }
         }
-        private string _FirstName = null;
-        public string FirstName
+        
+        private static Canvas _CanvasContent = new Canvas();
+        public Canvas CanvasContent
         {
             get
             {
-                return _FirstName;
+                return _CanvasContent;
             }
             set
             {
-                _FirstName = null;
-                RaisePropertyChanged(this,"FirstName");
+                _CanvasContent = value;
+                RaisePropertyChanged(this, "CanvasContent");
             }
         }
-        private string _LastName = null;
-        public string LastName
-        {
-            get
-            {
-                return _LastName;
-            }
-            set
-            {
-                _LastName = null;
-                RaisePropertyChanged(this,"LastName");
-            }
-        }
+
         private void Save()
         {
             //TODO: jakos pobrac canvas
 
+            //to tylko taki test czy rysuje
+            Line line = new Line();
+            line.Stroke = Brushes.LimeGreen;
+            line.StrokeThickness = 4;
+            line.X1 = 5;
+            line.Y1 = 5;
+            line.X2 = 55;
+            line.Y2 = 55;
+            CanvasContent.Children.Add(line);
+            RaisePropertyChanged(this, "CanvasContent");
 
         }
+
         public void Open()
         {
             Debug.WriteLine("OPEN");

@@ -20,7 +20,7 @@
                     <Label>Open File</Label>
                 </StackPanel>
             </Button>
-            <Button Margin="5" Height="30" Name="SaveFileButton">
+            <Button Command="{Binding SaveFile}" Margin="5" Height="30" Name="SaveFileButton">
                 <StackPanel Orientation="Horizontal" Width="{Binding Width, ElementName=SaveFileButton}">
                     <Image HorizontalAlignment="Left" Source="Icons/Save-as-icon.png" Width="{Binding Height, ElementName=SaveFileButton}" Height="{Binding Height, ElementName=SaveFileButton}" />
                     <Label>Save File</Label>

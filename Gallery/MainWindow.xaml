@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:Gallery"
         mc:Ignorable="d"
         Title="Gallery" Height="350" Width="525">
-    <Window.Resources>
+
+    <Window.Resources>
         <local:ImagePathConverter x:Key="ImagePathConverter" />
     </Window.Resources>
     <Grid>
@@ -56,7 +57,8 @@
                                     <Image Margin="0,0,5,0" Grid.RowSpan="2" MaxHeight="64" Source="{Binding Path=ImagePath,Converter={StaticResource ImagePathConverter}}"/>
                                 </Grid>
                             </Border>
-                        </DataTemplate>
+                        </DataTemplate>
+
                     </ListBox.ItemTemplate>
                 </ListView>
             </ScrollViewer>
@@ -66,7 +68,8 @@
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <Canvas Name="canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                         AllowDrop="True" >
-                    <Image   Source="{Binding WorkspaceImage}" Width="{Binding Path=ActualWidth, ElementName=canvas}" Height="{Binding Path=ActualHeight, ElementName=canvas}" Stretch="UniformToFill" />
+                    <ContentPresenter Content="{Binding CanvasContent}"/>
+                    <Image   Source="{Binding WorkspaceImage}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" />
                 </Canvas>
             </ScrollViewer>
         </Grid>
