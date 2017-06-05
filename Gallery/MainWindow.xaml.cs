@@ -22,7 +22,7 @@ namespace Gallery
     {
         public MainWindow()
         {
-                   DataContext = new ViewModel();
+            DataContext = new ViewModel();
             InitializeComponent();
   
             

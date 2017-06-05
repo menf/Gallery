@@ -61,8 +61,8 @@
                 </Slider>
             </StackPanel>
             <StackPanel Margin="5" Orientation="Horizontal">
-                <Label Height="45" Width="45" Background="Black" />
-                <Button Margin="10 0 0 0">Pick a color</Button>
+                <Label Height="45" Width="45" Background="{Binding KolorBrush}" />
+                <Button Command="{Binding PickColor}" Margin="10 0 0 0">Pick a color</Button>
             </StackPanel>
         </StackPanel>
     </Grid>

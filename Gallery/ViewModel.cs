@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using System.Windows.Forms;
+using System.Windows.Media;
+
 namespace Gallery
 {
     class ViewModel : INotifyPropertyChanged
@@ -17,10 +19,46 @@ namespace Gallery
         {
             Debug.WriteLine("INIT VIEWMODEL");
             _canExecute = true;
+            Kolor = Colors.Black;
+            KolorBrush = new SolidColorBrush(Colors.Black);
         }
         public event PropertyChangedEventHandler PropertyChanged ;
         private Uri filepath;
+        private Color _kolor;
+        public Color Kolor
+        {
+            get
+            {
+                Debug.WriteLine("get kolor");
+                return _kolor;
+
+            }
+            set
+            {
+                Debug.WriteLine("Niby ustawiam kolor");
+                _kolor = value;
+                RaisePropertyChanged(this, "Kolor");
+            }
+        }
+        private SolidColorBrush _kolorbrush;
+        public SolidColorBrush KolorBrush
+        {
+            get
+            {
+                Debug.WriteLine("get kolorbrush");
+                return _kolorbrush;
+
+            }
+            set
+            {
+                Debug.WriteLine("Niby ustawiam kolorbrush");
+                _kolorbrush = value;
+                RaisePropertyChanged(this, "KolorBrush");
+            }
+        }
         private bool _canExecute;
+        private bool _canExecuteS=false;
+
         private ICommand AddToFavourites { get; set; }
 
         private ICommand _openFile;
@@ -30,6 +68,26 @@ namespace Gallery
             {
                 Debug.WriteLine("GET OPENFILE");
                 return _openFile ?? (_openFile = new CommandHandler(() => Open(), _canExecute));
+            }
+        }
+
+        private ICommand _saveFile;
+        public ICommand SaveFile
+        {
+            get
+            {
+                Debug.WriteLine("Save file");
+                return _saveFile ?? (_saveFile = new CommandHandler(() => Save(), _canExecuteS));
+            }
+        }
+
+        private ICommand _pickColor;
+        public ICommand PickColor
+        {
+            get
+            {
+                Debug.WriteLine("change color ");
+                return _pickColor ?? (_pickColor = new CommandHandler(() => ChangeColor(), _canExecute));
             }
         }
 
@@ -77,7 +135,7 @@ namespace Gallery
         }
         private void Save()
         {
-            // logika odpowiedzialna za zapis
+            
         }
         public void Open()
         {
@@ -95,6 +153,13 @@ namespace Gallery
         private void Dummy()
         {
             // logika odpowiedzialna za cos
+        }
+        private void ChangeColor()
+        {
+            var dialog = new ColorDialog();
+            dialog.ShowDialog();
+            Kolor = Color.FromArgb(dialog.Color.A, dialog.Color.R, dialog.Color.G, dialog.Color.B);
+            KolorBrush = new SolidColorBrush(Kolor);
         }
         protected void RaisePropertyChanged(object sender, string propertyName)
         {
