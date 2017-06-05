@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:Gallery"
         mc:Ignorable="d"
         Title="Gallery" Height="350" Width="525">
+    <Window.Resources>
+        <local:ImagePathConverter x:Key="ImagePathConverter" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="235"/>
@@ -39,8 +42,22 @@
                 <ListView Margin="5 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            
-                        </DataTemplate>
+                            <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4">
+                                <Grid Margin="3">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto" SharedSizeGroup="ikona" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Path=Name}"/>
+                                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Path=Dir}"/>
+                                    <Image Margin="0,0,5,0" Grid.RowSpan="2" MaxHeight="64" Source="{Binding Path=ImagePath,Converter={StaticResource ImagePathConverter}}"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListView>
             </ScrollViewer>
@@ -50,7 +67,7 @@
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <Canvas Name="canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                         AllowDrop="True" >
-                    <Image   Source="{Binding WorkspaceImage}" Width="{Binding Path=ActualWidth, ElementName=canvas}" Height="{Binding Path=ActualHeight, ElementName=canvas}" Stretch="Uniform" />
+                    <Image   Source="{Binding WorkspaceImage}" Width="{Binding Path=ActualWidth, ElementName=canvas}" Height="{Binding Path=ActualHeight, ElementName=canvas}" Stretch="UniformToFill" />
                 </Canvas>
             </ScrollViewer>
         </Grid>

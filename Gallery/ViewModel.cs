@@ -22,6 +22,7 @@ namespace Gallery
             Kolor = Colors.Black;
             KolorBrush = new SolidColorBrush(Colors.Black);
         }
+
         public event PropertyChangedEventHandler PropertyChanged ;
         private Uri filepath;
         private Color _kolor;
@@ -59,8 +60,6 @@ namespace Gallery
         private bool _canExecute;
         private bool _canExecuteS=false;
 
-        private ICommand AddToFavourites { get; set; }
-
         private ICommand _openFile;
         public ICommand OpenFile
         {
@@ -90,6 +89,17 @@ namespace Gallery
                 return _pickColor ?? (_pickColor = new CommandHandler(() => ChangeColor(), _canExecute));
             }
         }
+
+        private ICommand _addtoFav;
+        public ICommand AddtoFav
+        {
+            get
+            {
+                Debug.WriteLine("add to fav ");
+                return _addtoFav ?? (_addtoFav = new CommandHandler(() => AddtoFavourites(), _canExecuteS));
+            }
+        }
+
 
         private Uri _WorkspaceImage = new Uri("C:/Users/menf/Pictures/Przechwytywanie.png");
         public Uri WorkspaceImage
@@ -135,7 +145,9 @@ namespace Gallery
         }
         private void Save()
         {
-            
+            //TODO: jakos pobrac canvas
+
+
         }
         public void Open()
         {
@@ -148,6 +160,9 @@ namespace Gallery
             {
                 filepath = new Uri(openfiledialog.FileName, UriKind.RelativeOrAbsolute);
                 WorkspaceImage = filepath;
+                Debug.WriteLine("filepath" + filepath);
+                Debug.WriteLine("absolutepath"+filepath.AbsolutePath);
+                Debug.WriteLine("absoluteuri" + filepath.AbsoluteUri);
             }
         }
         private void Dummy()
@@ -161,6 +176,12 @@ namespace Gallery
             Kolor = Color.FromArgb(dialog.Color.A, dialog.Color.R, dialog.Color.G, dialog.Color.B);
             KolorBrush = new SolidColorBrush(Kolor);
         }
+
+       private void AddtoFavourites()
+        {
+           
+        }
+
         protected void RaisePropertyChanged(object sender, string propertyName)
         {
             if (PropertyChanged != null)
