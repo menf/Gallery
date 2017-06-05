@@ -65,8 +65,8 @@
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                 <Canvas Name="canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
                         AllowDrop="True" >
-                    <ContentPresenter Content="{Binding CanvasContent}"/>
                     <Image   Source="{Binding WorkspaceImage}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="UniformToFill" />
+                    <ContentPresenter Content="{Binding CanvasContent}"/>
                 </Canvas>
             </ScrollViewer>
         </Grid>
