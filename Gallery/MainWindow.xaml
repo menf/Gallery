@@ -7,9 +7,6 @@
         mc:Ignorable="d"
         Title="Gallery" Height="350" Width="525">
 
-    <Window.Resources>
-        <local:ImagePathConverter x:Key="ImagePathConverter" />
-    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="235"/>
@@ -54,7 +51,7 @@
                                         <ColumnDefinition />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="1" FontWeight="Bold" Text="{Binding Path=Name}"/>
-                                    <Image Margin="0,0,5,0" Grid.RowSpan="2" MaxHeight="64" Source="{Binding Path=ImagePath,Converter={StaticResource ImagePathConverter}}"/>
+                                    <Image Margin="0,0,5,0" Grid.RowSpan="2" MaxHeight="64" Source="{Binding Path=ImagePath}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>

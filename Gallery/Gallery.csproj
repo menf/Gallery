@@ -57,7 +57,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ImagePathConverter.cs" />
     <Compile Include="Item.cs" />
     <Compile Include="ToolsMenu.xaml.cs">
       <DependentUpon>ToolsMenu.xaml</DependentUpon>

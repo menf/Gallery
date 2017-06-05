@@ -25,7 +25,8 @@ namespace Gallery
             KolorBrush = new SolidColorBrush(Colors.Black);
             ListboxItems = new ObservableCollection<Item>();
         }
-        public ObservableCollection<Item> ListboxItems;
+
+        public ObservableCollection<Item> ListboxItems { get; set; }
         public event PropertyChangedEventHandler PropertyChanged ;
         private Uri filepath;
         private string name;
@@ -167,8 +168,8 @@ namespace Gallery
             openfiledialog.Title = "Please select an image file.";
             if (openfiledialog.ShowDialog() == DialogResult.OK)
             {
-                name = openfiledialog.FileName;
-                filepath = new Uri(name, UriKind.RelativeOrAbsolute);
+                filepath = new Uri(openfiledialog.FileName, UriKind.RelativeOrAbsolute);
+                name= System.IO.Path.GetFileName(filepath.LocalPath);
                 WorkspaceImage = filepath;
                 Debug.WriteLine("filepath" + filepath);
                 Debug.WriteLine("absolutepath"+filepath.AbsolutePath);
@@ -189,7 +190,10 @@ namespace Gallery
 
        private void AddtoFavourites()
         {
+            Debug.WriteLine("ADDTOFAV");
+
             ListboxItems.Add(new Item(name, filepath));
+            Debug.WriteLine("LISTBOX COUNT:" + ListboxItems.Count);
         }
 
         protected void RaisePropertyChanged(object sender, string propertyName)
