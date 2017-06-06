@@ -244,7 +244,9 @@ namespace Gallery
             renderBitmap.Render(CanvasContent);
 
             // Create a file stream for saving image
-            using (FileStream outStream = new FileStream("C:\\Users\\pogor\\Desktop\\zrzut.png", FileMode.Create))
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.ShowDialog();
+            using (FileStream outStream = new FileStream(sfd.FileName, FileMode.Create))
             {
                 // Use png encoder for our data
                 PngBitmapEncoder encoder = new PngBitmapEncoder();
