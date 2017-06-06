@@ -17,5 +17,26 @@ namespace Gallery
             Name = name;
             ImagePath = uri.ToString();
         }
+
+
+        public override bool Equals(object obj)
+        {
+            var item = obj as Item;
+
+            if (item == null)
+            {
+                return false;
+            }
+
+            return this.Name.Equals(item.Name);
+
+        }
+        public override int GetHashCode()
+        {
+            return this.Name.GetHashCode();
+        }
     }
+
+
+    
 }

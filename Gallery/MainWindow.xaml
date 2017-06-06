@@ -8,7 +8,9 @@
         xmlns:local="clr-namespace:Gallery"
         mc:Ignorable="d"
         Title="Gallery" Height="350" Width="525">
-
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="235"/>
@@ -23,14 +25,14 @@
         </local:ToolsMenu>
             <Grid Grid.Row="1" Grid.Column="0">
             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Horizontal">
-                <Button  Margin="5" Height="30" Name="RemoveFromFavouritesButton">
+                <Button CommandParameter="{Binding ElementName=lista, Path=SelectedIndex}" Command="{Binding RemoveFav}" Margin="5" Height="30" Name="RemoveFromFavouritesButton">
                     <StackPanel Orientation="Horizontal" Width="{Binding Width, ElementName=RemoveFromFavouritesButton}">
                         <Label>Remove</Label>
                         <Image HorizontalAlignment="Left" Source="Icons/Minus.png" Width="{Binding Height, ElementName=RemoveFromFavouritesButton}" Height="{Binding Height, ElementName=RemoveFromFavouritesButton}" />
                     </StackPanel>
                 </Button>
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center" Height="25">Favourites</Label>
-                <Button Command="{Binding AddtoFav}" Margin="5" Height="30" Name="AddToFavouritesButton">
+                <Button Command="{Binding AddtoFav}" Visibility="{Binding Path=CanExecuteS, Converter={StaticResource BoolToVis}}" Margin="5" Height="30" Name="AddToFavouritesButton">
                     <StackPanel Orientation="Horizontal" Width="{Binding Width, ElementName=AddToFavouritesButton}">
                         <Image HorizontalAlignment="Left" Source="Icons/Plus.png" Width="{Binding Height, ElementName=AddToFavouritesButton}" Height="{Binding Height, ElementName=AddToFavouritesButton}" />
                         <Label>Add</Label>
@@ -39,7 +41,7 @@
             </StackPanel>
             <ScrollViewer Margin="0 40 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <ListView ItemsSource="{Binding ListboxItems}" Margin="5 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ListView Name="lista" ItemsSource="{Binding ListboxItems}" Margin="5 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4">
@@ -69,7 +71,7 @@
                         AllowDrop="True">
                     
                         <Image Name="CanvasImage" Source="{Binding WorkspaceImage}" 
-                           HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="None" />
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Uniform" />
                     <ContentPresenter Content="{Binding CanvasContent}"/>
                 </Grid>
             </ScrollViewer>

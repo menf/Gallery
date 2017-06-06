@@ -32,6 +32,7 @@ namespace Gallery
         {
             Debug.WriteLine("INIT VIEWMODEL");
             _canExecute = true;
+            CanExecuteS = false;
             Kolor = Colors.Black;
             KolorBrush = new SolidColorBrush(Colors.Black);
             ListboxItems = new ObservableCollection<Item>();
@@ -82,7 +83,19 @@ namespace Gallery
 
 
         private bool _canExecute;
-        private bool _canExecuteS=true;
+        private bool _canExecuteS;
+        public bool CanExecuteS
+        {
+            get
+            {
+                return _canExecuteS;
+            }
+            set
+            {
+                _canExecuteS = value;
+                RaisePropertyChanged(this, "CanExecuteS");
+            }
+        }
 
         private ICommand _openFile;
         public ICommand OpenFile
@@ -90,7 +103,7 @@ namespace Gallery
             get
             {
                 Debug.WriteLine("GET OPENFILE");
-                return _openFile ?? (_openFile = new CommandHandler(() => Open(), _canExecute));
+                return _openFile ?? (_openFile = new CommandHandler(param => Open(), _canExecute));
             }
         }
 
@@ -100,7 +113,7 @@ namespace Gallery
             get
             {
                 Debug.WriteLine("Save file");
-                return _saveFile ?? (_saveFile = new CommandHandler(() => Save(), _canExecuteS));
+                return _saveFile ?? (_saveFile = new CommandHandler(param => Save(), _canExecuteS));
             }
         }
 
@@ -110,7 +123,7 @@ namespace Gallery
             get
             {
                 Debug.WriteLine("change color ");
-                return _pickColor ?? (_pickColor = new CommandHandler(() => ChangeColor(), _canExecute));
+                return _pickColor ?? (_pickColor = new CommandHandler(param => ChangeColor(), _canExecute));
             }
         }
 
@@ -120,10 +133,19 @@ namespace Gallery
             get
             {
                 Debug.WriteLine("add to fav ");
-                return _addtoFav ?? (_addtoFav = new CommandHandler(() => AddtoFavourites(), _canExecuteS));
+                return _addtoFav ?? (_addtoFav = new CommandHandler(param => AddtoFavourites(), _canExecute));
             }
         }
 
+        private ICommand _removeFav;
+        public ICommand RemoveFav
+        {
+            get
+            {
+                Debug.WriteLine("rem from fav ");
+                return _removeFav ?? (_removeFav = new CommandHandler(param => RemoveFromFavourites(param), _canExecuteS));
+            }
+        }
 
         private Uri _WorkspaceImage = new Uri("C:/Users/menf/Pictures/Przechwytywanie.png");
         public Uri WorkspaceImage
@@ -186,6 +208,7 @@ namespace Gallery
                 filepath = new Uri(openfiledialog.FileName, UriKind.RelativeOrAbsolute);
                 name= System.IO.Path.GetFileName(filepath.LocalPath);
                 WorkspaceImage = filepath;
+                CanExecuteS = true;
                 Debug.WriteLine("filepath" + filepath);
                 Debug.WriteLine("absolutepath"+filepath.AbsolutePath);
                 Debug.WriteLine("absoluteuri" + filepath.AbsoluteUri);
@@ -203,12 +226,22 @@ namespace Gallery
             KolorBrush = new SolidColorBrush(Kolor);
         }
 
+       private void RemoveFromFavourites(object param)
+        {
+            if ((int)param>-1)
+            {
+                ListboxItems.RemoveAt((int)param);
+
+            }
+        }
        private void AddtoFavourites()
         {
             Debug.WriteLine("ADDTOFAV");
-
-            ListboxItems.Add(new Item(name, filepath));
+            Item item = new Item(name, filepath);
+            if (!ListboxItems.Contains(item))
+            ListboxItems.Add(item);
             Debug.WriteLine("LISTBOX COUNT:" + ListboxItems.Count);
+            CanExecuteS = false;
         }
 
         protected void RaisePropertyChanged(object sender, string propertyName)
@@ -257,9 +290,9 @@ namespace Gallery
     // w stylu new CommandHandler(() => MyAction(), _canExecute))
     public class CommandHandler : ICommand
     {
-        private Action _action;
+        private Action<object> _action;
         private bool _canExecute;
-        public CommandHandler(Action action, bool canExecute)
+        public CommandHandler(Action<object> action, bool canExecute)
         {
             _action = action;
             _canExecute = canExecute;
@@ -275,7 +308,7 @@ namespace Gallery
         public void Execute(object parameter)
         {
             Debug.WriteLine("EXECUTE");
-            _action();
+            _action(parameter);
         }
     }
 }
