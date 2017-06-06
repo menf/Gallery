@@ -33,12 +33,14 @@ namespace Gallery
         public ViewModel()
         {
             Debug.WriteLine("INIT VIEWMODEL");
+            System.Windows.Application.Current.MainWindow.Closing += new CancelEventHandler(MainWindow_Closing);
             _canExecute = true;
             CanExecuteS = false;
             CanExecuteR= false;
             Kolor = Colors.Black;
             KolorBrush = new SolidColorBrush(Colors.Black);
             ListboxItems = new ObservableCollection<Item>();
+            InitFav();
         }
 
         public ObservableCollection<Item> ListboxItems { get; set; }
@@ -290,10 +292,13 @@ namespace Gallery
         {
             CanvasContent = new Grid();
             Item item = ListboxItems[(int)param];
+            Debug.WriteLine("INDEX FAV: " + (int)param);
             filepath = new Uri(item.ImagePath, UriKind.RelativeOrAbsolute);
             name = item.Name;
             WorkspaceImage = filepath;
-            
+            Image loadedImage = new Image();
+            loadedImage.Source = new BitmapImage(WorkspaceImage);
+            CanvasContent.Children.Add(loadedImage);
 
         }
         private void Dummy()
@@ -338,6 +343,43 @@ namespace Gallery
             }
         }
 
+        void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            using (StreamWriter writetext = new StreamWriter("fav.txt"))
+            {
+                foreach (Item item in ListboxItems)
+                {
+                    writetext.WriteLine(item.Name);
+                    writetext.WriteLine(item.ImagePath);
+
+                }
+
+            }
+        }
+
+        public void InitFav()
+        {
+            if (File.Exists("fav.txt"))
+            {
+
+                using (StreamReader readtext = new StreamReader("fav.txt"))
+                {
+                    
+                    string line1;
+                    string line2;
+                    while ((line1 = readtext.ReadLine()) != null)
+                        {
+                        line2 = readtext.ReadLine();
+                           ListboxItems.Add(new Item(line1,new Uri(line2)));
+                        }
+
+                    } 
+                        
+                }
+
+            }
+            
+        
         public void StartDrawing()
         {
             switch (drawingTool)
