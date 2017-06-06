@@ -358,7 +358,7 @@ namespace Gallery
             if (!ListboxItems.Contains(item))
             ListboxItems.Add(item);
             Debug.WriteLine("LISTBOX COUNT:" + ListboxItems.Count);
-            CanExecuteS = false;
+           // CanExecuteS = false;
             CanExecuteR = true;
         }
 
@@ -408,12 +408,23 @@ namespace Gallery
 
         }
 
-
+        Shape figura; 
         public void BeginDrawing(MouseButtonEventArgs e)
         {
+        
+           
+
             switch (drawingTool)
             {
                 case DrawingTool.Pencil:
+                    figura = new Line();
+                    figura.Stroke = Brushes.LimeGreen;
+                    figura.StrokeThickness = 4;
+                    ((Line)figura).X1 = e.GetPosition(CanvasContent).X;
+                    ((Line)figura).Y1 = e.GetPosition(CanvasContent).Y;
+                    // ((Line)figura).X2 = e.GetPosition(CanvasContent).X;
+                    //((Line)figura).Y2 = e.GetPosition(CanvasContent).Y;
+                    CanvasContent.Children.Add(figura);
                     break;
                 case DrawingTool.Paintbrush:
                     break;
@@ -441,24 +452,33 @@ namespace Gallery
 
         private void Drawing(System.Windows.Input.MouseEventArgs e)
         {
-            switch (drawingTool)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
-                case DrawingTool.Pencil:
+                switch (drawingTool)
+                {
+                    case DrawingTool.Pencil:
+                        if (figura != null)
+                        {
+                            ((Line)figura).X2 = e.GetPosition(CanvasContent).X;
+                            ((Line)figura).Y2 = e.GetPosition(CanvasContent).Y;
+                        }
 
-                    break;
-                case DrawingTool.Paintbrush:
-                    break;
-                case DrawingTool.Eraser:
-                    break;
-                case DrawingTool.Line:
-                    break;
-                case DrawingTool.Triangle:
-                    break;
-                case DrawingTool.Circle:
-                    break;
-                case DrawingTool.Rectangle:
-                    break;
+                        break;
+                    case DrawingTool.Paintbrush:
+                        break;
+                    case DrawingTool.Eraser:
+                        break;
+                    case DrawingTool.Line:
+                        break;
+                    case DrawingTool.Triangle:
+                        break;
+                    case DrawingTool.Circle:
+                        break;
+                    case DrawingTool.Rectangle:
+                        break;
+                }
             }
+      
         }
 
         private void EndDrawing(MouseButtonEventArgs e)
