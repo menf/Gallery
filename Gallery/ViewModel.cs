@@ -23,7 +23,7 @@ namespace Gallery
         {
             Rectangle,
             Triangle,
-            Circle,
+            Ellipse,
             Line,
             Eraser,
             Pencil,
@@ -242,9 +242,38 @@ namespace Gallery
                 RaisePropertyChanged(this,"WorkspaceImage");
             }
         }
-        
-        private static Grid _CanvasContent = new Grid();
-        public Grid CanvasContent
+
+        private static double _CanvasWidth;
+        public double CanvasWidth
+        {
+            get
+            {
+                return _CanvasWidth;
+            }
+            set
+            {
+                _CanvasWidth = value;
+                RaisePropertyChanged(this, "CanvasWidth");
+            }
+        }
+
+        private static double _CanvasJHeight;
+        public double CanvasHeight
+        {
+            get
+            {
+                return _CanvasJHeight;
+            }
+            set
+            {
+                _CanvasJHeight = value;
+                RaisePropertyChanged(this, "CanvasHeight");
+            }
+        }
+
+
+        private static Canvas _CanvasContent = new Canvas();
+        public Canvas CanvasContent
         {
             get
             {
@@ -325,15 +354,17 @@ namespace Gallery
             openfiledialog.Title = "Please select an image file.";
             if (openfiledialog.ShowDialog() == DialogResult.OK)
             {
-                CanvasContent = new Grid();
+                CanvasContent = new Canvas();
                 filepath = new Uri(openfiledialog.FileName, UriKind.RelativeOrAbsolute);
                 name= System.IO.Path.GetFileName(filepath.LocalPath);
                 WorkspaceImage = filepath;
                 CanExecuteS = true;
                 Image loadedImage = new Image();
-                loadedImage.Source = new BitmapImage(WorkspaceImage);
+                BitmapImage loadedBitmap = new BitmapImage(WorkspaceImage);
+                loadedImage.Source = loadedBitmap;
                 CanvasContent.Children.Add(loadedImage);
-
+                CanvasWidth = loadedBitmap.Width;
+                CanvasHeight = loadedBitmap.Height;
                 Debug.WriteLine("filepath" + filepath);
                 Debug.WriteLine("absolutepath"+filepath.AbsolutePath);
                 Debug.WriteLine("absoluteuri" + filepath.AbsoluteUri);
@@ -341,21 +372,21 @@ namespace Gallery
         }
         public void OpenFromFavorite(object param)
         {
-            CanvasContent = new Grid();
+            CanvasContent = new Canvas();
             Item item = ListboxItems[(int)param];
             Debug.WriteLine("INDEX FAV: " + (int)param);
             filepath = new Uri(item.ImagePath, UriKind.RelativeOrAbsolute);
             name = item.Name;
             WorkspaceImage = filepath;
             Image loadedImage = new Image();
-            loadedImage.Source = new BitmapImage(WorkspaceImage);
+            BitmapImage loadedBitmap = new BitmapImage(WorkspaceImage);
+            loadedImage.Source = loadedBitmap;
             CanvasContent.Children.Add(loadedImage);
+            CanvasHeight = loadedBitmap.Height;
+            CanvasWidth = loadedBitmap.Width;
+            CanExecuteS = true;
+        }
 
-        }
-        private void Dummy()
-        {
-            // logika odpowiedzialna za cos
-        }
         private void ChangeColor()
         {
             var dialog = new ColorDialog();
@@ -440,20 +471,16 @@ namespace Gallery
             switch (drawingTool)
             {
                 case DrawingTool.Pencil:
-                    figura = new Rectangle();
-                    figura.Stroke = KolorBrush;
-                    figura.StrokeThickness = 4;
-                    CanvasContent.Children.Add(figura);
+                    
                     break;
                 case DrawingTool.Paintbrush:
                     break;
                 case DrawingTool.Eraser:
                     break;
                 case DrawingTool.Line:
-                    
-                     figura = new Line();
+                    figura = new Line();
                     figura.Stroke = KolorBrush;
-                    figura.StrokeThickness = 4;
+                    figura.StrokeThickness = 2;
                     ((Line)figura).X1 = beginPoint.X;
                     ((Line)figura).Y1 = beginPoint.Y;
                     ((Line)figura).X2 = beginPoint.X;
@@ -467,13 +494,21 @@ namespace Gallery
                     //PointCollection polygonPoints = new PointCollection();
                     //polygonPoints.Add(new Point(e.GetPosition(CanvasContent).X,e.GetPosition(CanvasContent).Y));
                     //polygonPoints.Add(Point2);
-                   // polygonPoints.Add(Point3);
+                    //polygonPoints.Add(Point3);
                     //((Polygon)figura).Points = polygonPoints;
 
                     break;
-                case DrawingTool.Circle:
+                case DrawingTool.Ellipse:
+                    figura = new Ellipse();
+                    figura.Stroke = KolorBrush;
+                    figura.StrokeThickness = 2;
+                    CanvasContent.Children.Add(figura);
                     break;
                 case DrawingTool.Rectangle:
+                    figura = new Rectangle();
+                    figura.Stroke = KolorBrush;
+                    figura.StrokeThickness = 2;
+                    CanvasContent.Children.Add(figura);
                     break;
             }
             ////Point beginPoint = e.GetPosition(CanvasContent);
@@ -495,15 +530,7 @@ namespace Gallery
                 switch (drawingTool)
                 {
                     case DrawingTool.Pencil:
-                             var current = e.GetPosition(CanvasContent);
-                             double   x = Math.Min(current.X, beginPoint.X);
-                              double y = Math.Min(current.Y, beginPoint.Y);
-                             var width = Math.Max(current.X, beginPoint.X) - x;
-                             var height = Math.Max(current.Y, beginPoint.Y) - y;
-                            Grid.SetRow(figura, (int)1);
-                            Grid.SetColumn(figura, (int)1);
-                            figura.Width = width;
-                            figura.Height = height;
+                        
                         break;
                     case DrawingTool.Paintbrush:
                         break;
@@ -515,9 +542,31 @@ namespace Gallery
                         break;
                     case DrawingTool.Triangle:
                         break;
-                    case DrawingTool.Circle:
+                    case DrawingTool.Ellipse:
+                        {
+                            var current = e.GetPosition(CanvasContent);
+                            double x = Math.Min(current.X, beginPoint.X);
+                            double y = Math.Min(current.Y, beginPoint.Y);
+                            var width = Math.Max(current.X, beginPoint.X) - x;
+                            var height = Math.Max(current.Y, beginPoint.Y) - y;
+                            Canvas.SetLeft(figura, x);
+                            Canvas.SetTop(figura, y);
+                            figura.Width = width;
+                            figura.Height = height;
+                        }
                         break;
                     case DrawingTool.Rectangle:
+                        {
+                            var current = e.GetPosition(CanvasContent);
+                            double x = Math.Min(current.X, beginPoint.X);
+                            double y = Math.Min(current.Y, beginPoint.Y);
+                            var width = Math.Max(current.X, beginPoint.X) - x;
+                            var height = Math.Max(current.Y, beginPoint.Y) - y;
+                            Canvas.SetLeft(figura, x);
+                            Canvas.SetTop(figura, y);
+                            figura.Width = width;
+                            figura.Height = height;
+                        }
                         break;
                 }
             }
