@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:cmd ="http://www.galasoft.ch/mvvmlight"
         xmlns:local="clr-namespace:Gallery"
         mc:Ignorable="d"
         Title="Gallery" Height="350" Width="525">
@@ -71,10 +72,21 @@
         <Grid Grid.Row="1" Grid.Column="1">
             <ScrollViewer Padding="5 5 0 0" Margin="0 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <Canvas Name="canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Grid Name="canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         AllowDrop="True">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <cmd:EventToCommand Command="{Binding StartDrawing}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <cmd:EventToCommand Command="{Binding Draw}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <cmd:EventToCommand Command="{Binding StopDrawing}" PassEventArgsToCommand="True" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ContentPresenter Content="{Binding CanvasContent}"/>
-                </Canvas>
+                </Grid>
             </ScrollViewer>
         </Grid>
     </Grid>

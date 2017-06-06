@@ -173,6 +173,16 @@ namespace Gallery
             }
         }
 
+        private ICommand _startDrawing;
+        public ICommand StartDrawing
+        {
+            get
+            {
+                Debug.WriteLine("Drawing started");
+                return _startDrawing ?? (_startDrawing = new CommandHandler(param => BeginDraw(param), _canExecute));
+            }
+        }
+
         private Uri _WorkspaceImage = new Uri("C:/Users/menf/Pictures/Przechwytywanie.png");
         public Uri WorkspaceImage
         {
@@ -338,7 +348,7 @@ namespace Gallery
             }
         }
 
-        public void StartDrawing()
+        public void BeginDraw(MouseButtonEventArgs e)
         {
             switch (drawingTool)
             {
@@ -357,7 +367,7 @@ namespace Gallery
                 case DrawingTool.Rectangle:
                     break;
             }
-            //leftMouseButtonDown = true;
+            leftMouseButtonDown = true;
             //begin = e.GetPosition(mainCanvas);
             //mainCanvas.CaptureMouse();
             //Mouse.Capture(mainCanvas);
@@ -369,7 +379,18 @@ namespace Gallery
             //mainCanvas.Children.Add(lastRectangle);
         }
 
+        private void Draw(System.Windows.Input.MouseEventArgs e)
+        {
+
+        }
+
+        private void EndDrawing(MouseButtonEventArgs e)
+        {
+
+        }
     }
+
+    
 
     // w stylu new CommandHandler(() => MyAction(), _canExecute))
     public class CommandHandler : ICommand
