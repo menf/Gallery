@@ -47,7 +47,7 @@
                             <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4">
                                 <Grid Margin="3">
                                     <Grid.InputBindings>
-                                        <MouseBinding Gesture="LeftClick" Command="{Binding OpenFromFav}" CommandParameter="{Binding ElementName=lista, Path=SelectedIndex}" />
+                                        <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding DataContext.OpenFromFav}" CommandParameter="{Binding ElementName=lista, Path=SelectedIndex}" />
                                     </Grid.InputBindings>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
@@ -70,13 +70,10 @@
         <Grid Grid.Row="1" Grid.Column="1">
             <ScrollViewer Padding="5 5 0 0" Margin="0 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <Grid Name="canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                <Canvas Name="canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                         AllowDrop="True">
-                    
-                        <Image Name="CanvasImage" Source="{Binding WorkspaceImage}" 
-                           HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Uniform" />
                     <ContentPresenter Content="{Binding CanvasContent}"/>
-                </Grid>
+                </Canvas>
             </ScrollViewer>
         </Grid>
     </Grid>

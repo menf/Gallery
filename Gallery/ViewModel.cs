@@ -12,6 +12,8 @@ using System.Windows.Forms;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.Windows.Shapes;
+using System.IO;
+using System.Windows;
 
 namespace Gallery
 {
@@ -97,7 +99,7 @@ namespace Gallery
                 RaisePropertyChanged(this, "CanExecuteR");
             }
         }
-        private bool _canExecuteS;
+        private bool _canExecuteS = true;
         public bool CanExecuteS
         {
             get
@@ -137,7 +139,7 @@ namespace Gallery
             get
             {
                 Debug.WriteLine("Save file");
-                return _saveFile ?? (_saveFile = new CommandHandler(param => Save(), _canExecuteS));
+                return _saveFile ?? (_saveFile = new CommandHandler(param => Save(), _canExecute));
             }
         }
 
@@ -205,7 +207,6 @@ namespace Gallery
         private void Save()
         {
             //TODO: jakos pobrac canvas
-
             //to tylko taki test czy rysuje
             Line line = new Line();
             line.Stroke = Brushes.LimeGreen;
@@ -214,8 +215,49 @@ namespace Gallery
             line.Y1 = 5;
             line.X2 = 555;
             line.Y2 = 555;
+
             CanvasContent.Children.Add(line);
             RaisePropertyChanged(this, "CanvasContent");
+            //CanvasContent.Width = 800;
+            //CanvasContent.Height = 800;
+            Transform transform = CanvasContent.LayoutTransform;
+            // reset current transform (in case it is scaled or rotated)
+            CanvasContent.LayoutTransform = null;
+
+            // Get the size of canvas
+            int width = (int)CanvasContent.ActualWidth;
+            int height = (int)CanvasContent.ActualHeight;
+            Size size = new Size(width, height);
+            // Measure and arrange the surface
+            // VERY IMPORTANT
+            CanvasContent.Measure(size);
+            CanvasContent.Arrange(new System.Windows.Rect(size));
+
+            // Create a render bitmap and push the surface to it
+            RenderTargetBitmap renderBitmap =
+              new RenderTargetBitmap(
+                (int)size.Width,
+                (int)size.Height,
+                96d,
+                96d,
+                PixelFormats.Pbgra32);
+            renderBitmap.Render(CanvasContent);
+
+            // Create a file stream for saving image
+            using (FileStream outStream = new FileStream("C:\\Users\\pogor\\Desktop\\zrzut.png", FileMode.Create))
+            {
+                // Use png encoder for our data
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                // push the rendered bitmap to it
+                encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+                // save the data to the stream
+                encoder.Save(outStream);
+            }
+
+            //    // Restore previously saved layout
+            CanvasContent.LayoutTransform = transform;
+            //}
+
 
         }
 
@@ -233,6 +275,10 @@ namespace Gallery
                 name= System.IO.Path.GetFileName(filepath.LocalPath);
                 WorkspaceImage = filepath;
                 CanExecuteS = true;
+                Image loadedImage = new Image();
+                loadedImage.Source = new BitmapImage(WorkspaceImage);
+                CanvasContent.Children.Add(loadedImage);
+
                 Debug.WriteLine("filepath" + filepath);
                 Debug.WriteLine("absolutepath"+filepath.AbsolutePath);
                 Debug.WriteLine("absoluteuri" + filepath.AbsoluteUri);
