@@ -327,8 +327,10 @@ namespace Gallery
 
             // Create a file stream for saving image
             SaveFileDialog sfd = new SaveFileDialog();
-            sfd.ShowDialog();
-            using (FileStream outStream = new FileStream(sfd.FileName, FileMode.Create))
+            sfd.DefaultExt = System.IO.Path.GetExtension(name);
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+                using (FileStream outStream = new FileStream(sfd.FileName, FileMode.Create))
             {
                 // Use png encoder for our data
                 PngBitmapEncoder encoder = new PngBitmapEncoder();
@@ -456,7 +458,7 @@ namespace Gallery
                     }
 
                 }
-
+                CanExecuteR = true;
             }
 
         }
