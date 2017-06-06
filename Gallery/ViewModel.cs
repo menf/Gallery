@@ -458,16 +458,21 @@ namespace Gallery
 
         void MainWindow_Closing(object sender, CancelEventArgs e)
         {
-            using (StreamWriter writetext = new StreamWriter("fav.txt"))
-            {
-                foreach (Item item in ListboxItems)
+           
+                if (ListboxItems.Count > 0)
                 {
-                    writetext.WriteLine(item.Name);
-                    writetext.WriteLine(item.ImagePath);
+                    File.WriteAllText("fav.txt", String.Empty);
+                using (StreamWriter writetext = new StreamWriter("fav.txt"))
+                {
+                    foreach (Item item in ListboxItems)
+                    {
+                        writetext.WriteLine(item.Name);
+                        writetext.WriteLine(item.ImagePath);
 
+                    }
                 }
-
             }
+            else File.Delete("fav.txt");
         }
 
         public void InitFav()
