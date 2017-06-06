@@ -33,6 +33,7 @@ namespace Gallery
             Debug.WriteLine("INIT VIEWMODEL");
             _canExecute = true;
             CanExecuteS = false;
+            CanExecuteR= false;
             Kolor = Colors.Black;
             KolorBrush = new SolidColorBrush(Colors.Black);
             ListboxItems = new ObservableCollection<Item>();
@@ -83,6 +84,19 @@ namespace Gallery
 
 
         private bool _canExecute;
+        private bool _canExecuteR;
+        public bool CanExecuteR
+        {
+            get
+            {
+                return _canExecuteR;
+            }
+            set
+            {
+                _canExecuteR = value;
+                RaisePropertyChanged(this, "CanExecuteR");
+            }
+        }
         private bool _canExecuteS;
         public bool CanExecuteS
         {
@@ -104,6 +118,16 @@ namespace Gallery
             {
                 Debug.WriteLine("GET OPENFILE");
                 return _openFile ?? (_openFile = new CommandHandler(param => Open(), _canExecute));
+            }
+        }
+
+        private ICommand _openfromFav;
+        public ICommand OpenFromFav
+        {
+            get
+            {
+                Debug.WriteLine("GET openfav");
+                return _openfromFav ?? (_openfromFav = new CommandHandler(param => OpenFromFavorite(param), _canExecute));
             }
         }
 
@@ -143,7 +167,7 @@ namespace Gallery
             get
             {
                 Debug.WriteLine("rem from fav ");
-                return _removeFav ?? (_removeFav = new CommandHandler(param => RemoveFromFavourites(param), _canExecuteS));
+                return _removeFav ?? (_removeFav = new CommandHandler(param => RemoveFromFavourites(param), _canExecute));
             }
         }
 
@@ -214,6 +238,16 @@ namespace Gallery
                 Debug.WriteLine("absoluteuri" + filepath.AbsoluteUri);
             }
         }
+        public void OpenFromFavorite(object param)
+        {
+            CanvasContent = new Grid();
+            Item item = ListboxItems[(int)param];
+            filepath = new Uri(item.ImagePath, UriKind.RelativeOrAbsolute);
+            name = item.Name;
+            WorkspaceImage = filepath;
+            
+
+        }
         private void Dummy()
         {
             // logika odpowiedzialna za cos
@@ -233,6 +267,7 @@ namespace Gallery
                 ListboxItems.RemoveAt((int)param);
 
             }
+            if (ListboxItems.Count < 1) CanExecuteR= false;
         }
        private void AddtoFavourites()
         {
@@ -242,6 +277,7 @@ namespace Gallery
             ListboxItems.Add(item);
             Debug.WriteLine("LISTBOX COUNT:" + ListboxItems.Count);
             CanExecuteS = false;
+            CanExecuteR = true;
         }
 
         protected void RaisePropertyChanged(object sender, string propertyName)

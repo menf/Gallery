@@ -25,7 +25,7 @@
         </local:ToolsMenu>
             <Grid Grid.Row="1" Grid.Column="0">
             <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" Orientation="Horizontal">
-                <Button CommandParameter="{Binding ElementName=lista, Path=SelectedIndex}" Command="{Binding RemoveFav}" Margin="5" Height="30" Name="RemoveFromFavouritesButton">
+                <Button Visibility="{Binding Path=CanExecuteR, Converter={StaticResource BoolToVis}}" CommandParameter="{Binding ElementName=lista, Path=SelectedIndex}" Command="{Binding RemoveFav}" Margin="5" Height="30" Name="RemoveFromFavouritesButton">
                     <StackPanel Orientation="Horizontal" Width="{Binding Width, ElementName=RemoveFromFavouritesButton}">
                         <Label>Remove</Label>
                         <Image HorizontalAlignment="Left" Source="Icons/Minus.png" Width="{Binding Height, ElementName=RemoveFromFavouritesButton}" Height="{Binding Height, ElementName=RemoveFromFavouritesButton}" />
@@ -46,6 +46,9 @@
                         <DataTemplate>
                             <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4">
                                 <Grid Margin="3">
+                                    <Grid.InputBindings>
+                                        <MouseBinding Gesture="LeftClick" Command="{Binding OpenFromFav}" CommandParameter="{Binding ElementName=lista, Path=SelectedIndex}" />
+                                    </Grid.InputBindings>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition/>
