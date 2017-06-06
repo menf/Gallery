@@ -29,27 +29,27 @@
         </StackPanel>
         <StackPanel Grid.Column="1" >
             <StackPanel Orientation="Horizontal">
-                <Button Margin="5" Name="RectangleButton" Height="30" Width="35">
+                <Button Command="{Binding ChangeTool}" CommandParameter="0" Margin="5" Name="RectangleButton" Height="30" Width="35">
                     <Image Source="Icons/Rectangle.png"  Width="{Binding Height, ElementName=RectangleButton}" Height="{Binding Height, ElementName=RectangleButton}" />
                 </Button>
-                <Button Margin="5" Name="EllipseButton" Height="30" Width="35">
+                <Button Command="{Binding ChangeTool}" CommandParameter="1" Margin="5" Name="EllipseButton" Height="30" Width="35">
                     <Image Source="Icons/Ellipse.png"  Width="{Binding Height, ElementName=EllipseButton}" Height="{Binding Height, ElementName=EllipseButton}" />
                 </Button>
-                <Button Margin="5" Name="TriangleButton" Height="30" Width="35">
+                <Button Command="{Binding ChangeTool}" CommandParameter="2" Margin="5" Name="TriangleButton" Height="30" Width="35">
                     <Image Source="Icons/Triangle.png"  Width="{Binding Height, ElementName=TriangleButton}" Height="{Binding Height, ElementName=TriangleButton}" />
                 </Button>
-                <Button Margin="5" Name="LineButton" Height="30" Width="35">
+                <Button Command="{Binding ChangeTool}" CommandParameter="3" Margin="5" Name="LineButton" Height="30" Width="35">
                     <Image Source="Icons/Line.png"  Width="{Binding Height, ElementName=LineButton}" Height="{Binding Height, ElementName=LineButton}" />
                 </Button>
             </StackPanel>
             <StackPanel Orientation="Horizontal">
-                <Button Margin="5" Name="EraserButton" Height="30" Width="35">
+                <Button Command="{Binding ChangeTool}" CommandParameter="4" Margin="5" Name="EraserButton" Height="30" Width="35">
                     <Image Source="Icons/eraser.png"  Width="{Binding Height, ElementName=EraserButton}" Height="{Binding Height, ElementName=EraserButton}" />
                 </Button>
-                <Button Margin="5" Name="PencilButton" Height="30" Width="35">
+                <Button Command="{Binding ChangeTool}" CommandParameter="5" Margin="5" Name="PencilButton" Height="30" Width="35">
                     <Image Source="Icons/Pencil.png"  Width="{Binding Height, ElementName=PencilButton}" Height="{Binding Height, ElementName=PencilButton}" />
                 </Button>
-                <Button Margin="5" Name="BrushButton" Height="30" Width="35">
+                <Button Command="{Binding ChangeTool}" CommandParameter="6" Margin="5" Name="BrushButton" Height="30" Width="35">
                     <Image Source="Icons/Brush.png"  Width="{Binding Height, ElementName=BrushButton}" Height="{Binding Height, ElementName=BrushButton}" />
                 </Button>
             </StackPanel>

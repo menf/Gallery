@@ -62,6 +62,7 @@ namespace Gallery
             set
             {
                 zoomValue = value;
+                RaisePropertyChanged(this, "ZoomValue");
                 if (CanvasContent != null)
                 {
                     CanvasContent.LayoutTransform = new ScaleTransform(zoomValue, zoomValue);
@@ -164,6 +165,16 @@ namespace Gallery
             {
                 Debug.WriteLine("Save file");
                 return _saveFile ?? (_saveFile = new CommandHandler(param => Save(), _canExecute));
+            }
+        }
+
+        private ICommand _changeTool;
+        public ICommand ChangeTool
+        {
+            get
+            {
+                Debug.WriteLine("Save file");
+                return _changeTool ?? (_changeTool = new CommandHandler(param => ChangeTol(param), _canExecute));
             }
         }
 
@@ -273,7 +284,7 @@ namespace Gallery
             }
         }
 
-
+        
         private static Canvas _CanvasContent = new Canvas();
         public Canvas CanvasContent
         {
@@ -355,6 +366,7 @@ namespace Gallery
                 Debug.WriteLine("filepath" + filepath);
                 Debug.WriteLine("absolutepath"+filepath.AbsolutePath);
                 Debug.WriteLine("absoluteuri" + filepath.AbsoluteUri);
+                ZoomValue = 1;
             }
         }
         public void OpenFromFavorite(object param)
@@ -374,9 +386,39 @@ namespace Gallery
             canvasBaseHeight = loadedBitmap.Height;
             canvasBaseWidth = loadedBitmap.Width;
             CanExecuteS = true;
+            ZoomValue = 1;
         }
+        private void ChangeTol(object param)
+        {
+            switch (Int32.Parse((string)param))
+            {
+                case 0:
+                    drawingTool = DrawingTool.Rectangle;
+                    break;
+                case 1:
+                    drawingTool = DrawingTool.Ellipse;
+                    break;
+                case 2:
+                    drawingTool = DrawingTool.Triangle;
+                    break;
+                case 3:
+                    drawingTool = DrawingTool.Line;
+                    break;
+                case 4:
+                    drawingTool = DrawingTool.Eraser;
+                    break;
+                case 5:
+                    drawingTool = DrawingTool.Pencil;
+                    break;
+                case 6:
+                    drawingTool = DrawingTool.Paintbrush;
+                    break;
+            }
+        }
+             
 
-        private void ChangeColor()
+            
+     private void ChangeColor()
         {
             var dialog = new ColorDialog();
             dialog.ShowDialog();
