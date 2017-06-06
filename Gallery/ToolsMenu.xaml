@@ -57,8 +57,7 @@
         <StackPanel Grid.Column="2" >
             <StackPanel Orientation="Horizontal">
                 <Label VerticalAlignment="Top">Zoom</Label>
-                <Slider Width="200" Margin="0 3 0 0">
-                </Slider>
+                <Slider Value="{Binding ZoomValue,Mode=TwoWay}" Maximum="30" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"  Width="200" Margin="0 3 0 0" Minimum="1" />
             </StackPanel>
             <StackPanel Margin="5" Orientation="Horizontal">
                 <Label Height="45" Width="45" Background="{Binding KolorBrush}" />

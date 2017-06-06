@@ -84,7 +84,7 @@
                             <cmd:EventToCommand Command="{Binding StopDrawing}" PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <ContentPresenter Content="{Binding CanvasContent}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ContentPresenter  RenderOptions.BitmapScalingMode="NearestNeighbor" Content="{Binding CanvasContent}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 </Grid>
             </ScrollViewer>
         </Grid>

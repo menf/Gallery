@@ -41,6 +41,7 @@ namespace Gallery
             KolorBrush = new SolidColorBrush(Colors.Black);
             ListboxItems = new ObservableCollection<Item>();
             InitFav();
+            ZoomValue = 1;
         }
 
         public ObservableCollection<Item> ListboxItems { get; set; }
@@ -49,6 +50,27 @@ namespace Gallery
         private string name;
         private DrawingTool drawingTool = DrawingTool.Pencil;
         private System.Drawing.Point beginPoint = new System.Drawing.Point();
+
+        private double zoomValue;
+        public double ZoomValue
+        {
+            get
+            {
+                return zoomValue;
+            }
+
+            set
+            {
+                zoomValue = value;
+                if (CanvasContent != null)
+                {
+                    CanvasContent.LayoutTransform = new ScaleTransform(zoomValue, zoomValue);
+
+                }
+
+            }
+        }
+
         private Color _kolor;
         public Color Kolor
         {
