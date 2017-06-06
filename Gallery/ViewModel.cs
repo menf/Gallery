@@ -301,18 +301,7 @@ namespace Gallery
 
         private void Save()
         {
-            //TODO: jakos pobrac canvas
-            //to tylko taki test czy rysuje
-            Line line = new Line();
-            line.Stroke = Brushes.LimeGreen;
-            line.StrokeThickness = 4;
-            line.X1 = 5;
-            line.Y1 = 5;
-            line.X2 = 555;
-            line.Y2 = 555;
-
-            CanvasContent.Children.Add(line);
-            RaisePropertyChanged(this, "CanvasContent");
+            ListboxItems.Clear();
             Transform transform = CanvasContent.LayoutTransform;
             CanvasContent.LayoutTransform = null;
             int width = (int)CanvasWidth;
@@ -339,6 +328,7 @@ namespace Gallery
                 encoder.Save(outStream);
             }
             CanvasContent.LayoutTransform = transform;
+            InitFav();
         }
 
         public void Open()
@@ -352,11 +342,16 @@ namespace Gallery
             {
                 CanvasContent = new Canvas();
                 filepath = new Uri(openfiledialog.FileName, UriKind.RelativeOrAbsolute);
-                name= System.IO.Path.GetFileName(filepath.LocalPath);
+                name = System.IO.Path.GetFileName(filepath.LocalPath);
                 WorkspaceImage = filepath;
                 CanExecuteS = true;
                 Image loadedImage = new Image();
-                BitmapImage loadedBitmap = new BitmapImage(WorkspaceImage);
+                BitmapImage loadedBitmap = new BitmapImage();
+                loadedBitmap.BeginInit();
+                loadedBitmap.CacheOption = BitmapCacheOption.OnLoad;
+                loadedBitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                loadedBitmap.UriSource = filepath;
+                loadedBitmap.EndInit();
                 loadedImage.Source = loadedBitmap;
                 CanvasContent.Children.Add(loadedImage);
                 CanvasWidth = loadedBitmap.Width;
@@ -378,7 +373,12 @@ namespace Gallery
             name = item.Name;
             WorkspaceImage = filepath;
             Image loadedImage = new Image();
-            BitmapImage loadedBitmap = new BitmapImage(WorkspaceImage);
+            BitmapImage loadedBitmap = new BitmapImage();
+            loadedBitmap.BeginInit();
+            loadedBitmap.CacheOption = BitmapCacheOption.OnLoad;
+            loadedBitmap.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+            loadedBitmap.UriSource = filepath;
+            loadedBitmap.EndInit();
             loadedImage.Source = loadedBitmap;
             CanvasContent.Children.Add(loadedImage);
             CanvasHeight = loadedBitmap.Height;
@@ -442,7 +442,6 @@ namespace Gallery
             if (!ListboxItems.Contains(item))
             ListboxItems.Add(item);
             Debug.WriteLine("LISTBOX COUNT:" + ListboxItems.Count);
-           // CanExecuteS = false;
             CanExecuteR = true;
         }
 
@@ -497,7 +496,8 @@ namespace Gallery
 
         }
 
-        Shape figura; 
+        Shape figura;
+        PointCollection points;
         public void BeginDrawing(MouseButtonEventArgs e)
         {
             beginPoint.X = (int)e.GetPosition(CanvasContent).X;
@@ -507,11 +507,31 @@ namespace Gallery
             switch (drawingTool)
             {
                 case DrawingTool.Pencil:
-                    
+                    figura = new Polyline();
+                    figura.Stroke = KolorBrush;
+                    figura.StrokeThickness = 1;
+                    points = new PointCollection();
+                    points.Add(e.GetPosition(CanvasContent));
+                    ((Polyline)figura).Points = points;
+                    CanvasContent.Children.Add(figura);
                     break;
                 case DrawingTool.Paintbrush:
+                    figura = new Polyline();
+                    figura.Stroke = KolorBrush;
+                    figura.StrokeThickness = 3;
+                    points = new PointCollection();
+                    points.Add(e.GetPosition(CanvasContent));
+                    ((Polyline)figura).Points = points;
+                    CanvasContent.Children.Add(figura);
                     break;
                 case DrawingTool.Eraser:
+                    figura = new Polyline();
+                    figura.Stroke = Brushes.White;
+                    figura.StrokeThickness = 2;
+                    points = new PointCollection();
+                    points.Add(e.GetPosition(CanvasContent));
+                    ((Polyline)figura).Points = points;
+                    CanvasContent.Children.Add(figura);
                     break;
                 case DrawingTool.Line:
                     figura = new Line();
@@ -524,15 +544,13 @@ namespace Gallery
                     CanvasContent.Children.Add(figura);
                     break;
                 case DrawingTool.Triangle:
-                    //figura = new System.Windows.Shapes.Polygon();
-                    //((Polygon)figura).Stroke = new SolidColorBrush(Kolor);
-                    //((Polygon)figura).StrokeThickness = 1;             
-                    //PointCollection polygonPoints = new PointCollection();
-                    //polygonPoints.Add(new Point(e.GetPosition(CanvasContent).X,e.GetPosition(CanvasContent).Y));
-                    //polygonPoints.Add(Point2);
-                    //polygonPoints.Add(Point3);
-                    //((Polygon)figura).Points = polygonPoints;
-
+                    figura = new System.Windows.Shapes.Polygon();
+                    figura.Stroke = KolorBrush;
+                    figura.StrokeThickness = 2;
+                    points = new PointCollection();
+                    points.Add(new Point(beginPoint.X, beginPoint.Y));
+                    ((Polygon)figura).Points = points;
+                    CanvasContent.Children.Add(figura);
                     break;
                 case DrawingTool.Ellipse:
                     figura = new Ellipse();
@@ -547,36 +565,33 @@ namespace Gallery
                     CanvasContent.Children.Add(figura);
                     break;
             }
-            ////Point beginPoint = e.GetPosition(CanvasContent);
-            ////CanvasContent.CaptureMouse();
-            ////Mouse.Capture(CanvasContent);
-            ////Rectangle lastRectangle = new Rectangle();
-            //lastRectangle.Stroke = new SolidColorBrush(rectangleColor);
-            //lastRectangle.StrokeThickness = 1;
-            //Canvas.SetLeft(lastRectangle, begin.X);
-            //Canvas.SetTop(lastRectangle, begin.Y);
-            //mainCanvas.Children.Add(lastRectangle);
         }
 
         private void Drawing(System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed && figura!=null)
             {
-
                 switch (drawingTool)
                 {
                     case DrawingTool.Pencil:
-                        
+                        points.Add(e.GetPosition(CanvasContent));
                         break;
                     case DrawingTool.Paintbrush:
+                        points.Add(e.GetPosition(CanvasContent));
                         break;
                     case DrawingTool.Eraser:
+                        points.Add(e.GetPosition(CanvasContent));
                         break;
                     case DrawingTool.Line:
                             ((Line)figura).X2 = e.GetPosition(CanvasContent).X;
                             ((Line)figura).Y2 = e.GetPosition(CanvasContent).Y;
                         break;
                     case DrawingTool.Triangle:
+                        points.Clear();
+                        points.Add(new Point(beginPoint.X, beginPoint.Y));
+                        points.Add(new Point(beginPoint.X, e.GetPosition(CanvasContent).Y));
+                        points.Add(new Point(e.GetPosition(CanvasContent).X, e.GetPosition(CanvasContent).Y));
+                        ((Polygon)figura).Points = points;
                         break;
                     case DrawingTool.Ellipse:
                         {
@@ -637,7 +652,6 @@ namespace Gallery
 
         public void Execute(object parameter)
         {
-            Debug.WriteLine("EXECUTE");
             _action(parameter);
         }
     }
