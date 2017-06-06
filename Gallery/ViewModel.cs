@@ -33,12 +33,14 @@ namespace Gallery
         public ViewModel()
         {
             Debug.WriteLine("INIT VIEWMODEL");
+            System.Windows.Application.Current.MainWindow.Closing += new CancelEventHandler(MainWindow_Closing);
             _canExecute = true;
             CanExecuteS = false;
             CanExecuteR= false;
             Kolor = Colors.Black;
             KolorBrush = new SolidColorBrush(Colors.Black);
             ListboxItems = new ObservableCollection<Item>();
+            InitFav();
         }
 
         public ObservableCollection<Item> ListboxItems { get; set; }
@@ -300,10 +302,13 @@ namespace Gallery
         {
             CanvasContent = new Grid();
             Item item = ListboxItems[(int)param];
+            Debug.WriteLine("INDEX FAV: " + (int)param);
             filepath = new Uri(item.ImagePath, UriKind.RelativeOrAbsolute);
             name = item.Name;
             WorkspaceImage = filepath;
-            
+            Image loadedImage = new Image();
+            loadedImage.Source = new BitmapImage(WorkspaceImage);
+            CanvasContent.Children.Add(loadedImage);
 
         }
         private void Dummy()
@@ -348,7 +353,7 @@ namespace Gallery
             }
         }
 
-        public void BeginDraw(MouseButtonEventArgs e)
+        public void StartDrawing()
         {
             switch (drawingTool)
             {
