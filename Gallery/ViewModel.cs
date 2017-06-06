@@ -48,7 +48,7 @@ namespace Gallery
         private Uri filepath;
         private string name;
         private DrawingTool drawingTool = DrawingTool.Pencil;
-        private System.Drawing.Point currentPoint = new System.Drawing.Point();
+        private System.Drawing.Point beginPoint = new System.Drawing.Point();
         private Color _kolor;
         public Color Kolor
         {
@@ -411,19 +411,16 @@ namespace Gallery
         Shape figura; 
         public void BeginDrawing(MouseButtonEventArgs e)
         {
-        
-           
+            beginPoint.X = (int)e.GetPosition(CanvasContent).X;
+            beginPoint.Y = (int)e.GetPosition(CanvasContent).Y;
 
+          
             switch (drawingTool)
             {
                 case DrawingTool.Pencil:
-                    figura = new Line();
-                    figura.Stroke = Brushes.LimeGreen;
+                    figura = new Rectangle();
+                    figura.Stroke = KolorBrush;
                     figura.StrokeThickness = 4;
-                    ((Line)figura).X1 = e.GetPosition(CanvasContent).X;
-                    ((Line)figura).Y1 = e.GetPosition(CanvasContent).Y;
-                    // ((Line)figura).X2 = e.GetPosition(CanvasContent).X;
-                    //((Line)figura).Y2 = e.GetPosition(CanvasContent).Y;
                     CanvasContent.Children.Add(figura);
                     break;
                 case DrawingTool.Paintbrush:
@@ -431,8 +428,26 @@ namespace Gallery
                 case DrawingTool.Eraser:
                     break;
                 case DrawingTool.Line:
+                    
+                     figura = new Line();
+                    figura.Stroke = KolorBrush;
+                    figura.StrokeThickness = 4;
+                    ((Line)figura).X1 = beginPoint.X;
+                    ((Line)figura).Y1 = beginPoint.Y;
+                    ((Line)figura).X2 = beginPoint.X;
+                    ((Line)figura).Y2 = beginPoint.Y;
+                    CanvasContent.Children.Add(figura);
                     break;
                 case DrawingTool.Triangle:
+                    //figura = new System.Windows.Shapes.Polygon();
+                    //((Polygon)figura).Stroke = new SolidColorBrush(Kolor);
+                    //((Polygon)figura).StrokeThickness = 1;             
+                    //PointCollection polygonPoints = new PointCollection();
+                    //polygonPoints.Add(new Point(e.GetPosition(CanvasContent).X,e.GetPosition(CanvasContent).Y));
+                    //polygonPoints.Add(Point2);
+                   // polygonPoints.Add(Point3);
+                    //((Polygon)figura).Points = polygonPoints;
+
                     break;
                 case DrawingTool.Circle:
                     break;
@@ -452,23 +467,29 @@ namespace Gallery
 
         private void Drawing(System.Windows.Input.MouseEventArgs e)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed && figura!=null)
             {
+
                 switch (drawingTool)
                 {
                     case DrawingTool.Pencil:
-                        if (figura != null)
-                        {
-                            ((Line)figura).X2 = e.GetPosition(CanvasContent).X;
-                            ((Line)figura).Y2 = e.GetPosition(CanvasContent).Y;
-                        }
-
+                             var current = e.GetPosition(CanvasContent);
+                             double   x = Math.Min(current.X, beginPoint.X);
+                              double y = Math.Min(current.Y, beginPoint.Y);
+                             var width = Math.Max(current.X, beginPoint.X) - x;
+                             var height = Math.Max(current.Y, beginPoint.Y) - y;
+                            Grid.SetRow(figura, (int)1);
+                            Grid.SetColumn(figura, (int)1);
+                            figura.Width = width;
+                            figura.Height = height;
                         break;
                     case DrawingTool.Paintbrush:
                         break;
                     case DrawingTool.Eraser:
                         break;
                     case DrawingTool.Line:
+                            ((Line)figura).X2 = e.GetPosition(CanvasContent).X;
+                            ((Line)figura).Y2 = e.GetPosition(CanvasContent).Y;
                         break;
                     case DrawingTool.Triangle:
                         break;
