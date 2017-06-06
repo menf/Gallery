@@ -48,7 +48,6 @@ namespace Gallery
         private Uri filepath;
         private string name;
         private DrawingTool drawingTool = DrawingTool.Pencil;
-        private bool leftMouseButtonDown = false;
         private System.Drawing.Point currentPoint = new System.Drawing.Point();
         private Color _kolor;
         public Color Kolor
@@ -181,7 +180,27 @@ namespace Gallery
             get
             {
                 Debug.WriteLine("Drawing started");
-                return _startDrawing ?? (_startDrawing = new CommandHandler(param => BeginDraw(param), _canExecute));
+                return _startDrawing ?? (_startDrawing = new CommandHandler(param => BeginDrawing((MouseButtonEventArgs)param), _canExecute));
+            }
+        }
+
+        private ICommand _draw;
+        public ICommand Draw
+        {
+            get
+            {
+                Debug.WriteLine("Drawing in progress");
+                return _draw ?? (_draw = new CommandHandler(param => Drawing((System.Windows.Input.MouseEventArgs)param), _canExecute));
+            }
+        }
+
+        private ICommand _stopDrawing;
+        public ICommand StopDrawing
+        {
+            get
+            {
+                Debug.WriteLine("Drawing finished");
+                return _stopDrawing ?? (_stopDrawing = new CommandHandler(param => EndDrawing((MouseButtonEventArgs)param), _canExecute));
             }
         }
 
@@ -353,7 +372,44 @@ namespace Gallery
             }
         }
 
-        public void StartDrawing()
+        void MainWindow_Closing(object sender, CancelEventArgs e)
+        {
+            using (StreamWriter writetext = new StreamWriter("fav.txt"))
+            {
+                foreach (Item item in ListboxItems)
+                {
+                    writetext.WriteLine(item.Name);
+                    writetext.WriteLine(item.ImagePath);
+
+                }
+
+            }
+        }
+
+        public void InitFav()
+        {
+            if (File.Exists("fav.txt"))
+            {
+
+                using (StreamReader readtext = new StreamReader("fav.txt"))
+                {
+
+                    string line1;
+                    string line2;
+                    while ((line1 = readtext.ReadLine()) != null)
+                    {
+                        line2 = readtext.ReadLine();
+                        ListboxItems.Add(new Item(line1, new Uri(line2)));
+                    }
+
+                }
+
+            }
+
+        }
+
+
+        public void BeginDrawing(MouseButtonEventArgs e)
         {
             switch (drawingTool)
             {
@@ -372,11 +428,10 @@ namespace Gallery
                 case DrawingTool.Rectangle:
                     break;
             }
-            leftMouseButtonDown = true;
-            //begin = e.GetPosition(mainCanvas);
-            //mainCanvas.CaptureMouse();
-            //Mouse.Capture(mainCanvas);
-            //lastRectangle = new Rectangle();
+            ////Point beginPoint = e.GetPosition(CanvasContent);
+            ////CanvasContent.CaptureMouse();
+            ////Mouse.Capture(CanvasContent);
+            ////Rectangle lastRectangle = new Rectangle();
             //lastRectangle.Stroke = new SolidColorBrush(rectangleColor);
             //lastRectangle.StrokeThickness = 1;
             //Canvas.SetLeft(lastRectangle, begin.X);
@@ -384,14 +439,31 @@ namespace Gallery
             //mainCanvas.Children.Add(lastRectangle);
         }
 
-        private void Draw(System.Windows.Input.MouseEventArgs e)
+        private void Drawing(System.Windows.Input.MouseEventArgs e)
         {
+            switch (drawingTool)
+            {
+                case DrawingTool.Pencil:
 
+                    break;
+                case DrawingTool.Paintbrush:
+                    break;
+                case DrawingTool.Eraser:
+                    break;
+                case DrawingTool.Line:
+                    break;
+                case DrawingTool.Triangle:
+                    break;
+                case DrawingTool.Circle:
+                    break;
+                case DrawingTool.Rectangle:
+                    break;
+            }
         }
 
         private void EndDrawing(MouseButtonEventArgs e)
         {
-
+            int dupa = 6;
         }
     }
 

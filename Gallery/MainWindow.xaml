@@ -77,10 +77,10 @@
                         <i:EventTrigger EventName="MouseLeftButtonDown">
                             <cmd:EventToCommand Command="{Binding StartDrawing}" PassEventArgsToCommand="True" />
                         </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:EventTrigger EventName="MouseMove">
                             <cmd:EventToCommand Command="{Binding Draw}" PassEventArgsToCommand="True" />
                         </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                        <i:EventTrigger EventName="MouseLeftButtonUp">
                             <cmd:EventToCommand Command="{Binding StopDrawing}" PassEventArgsToCommand="True" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
