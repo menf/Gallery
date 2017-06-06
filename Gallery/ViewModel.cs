@@ -65,7 +65,8 @@ namespace Gallery
                 if (CanvasContent != null)
                 {
                     CanvasContent.LayoutTransform = new ScaleTransform(zoomValue, zoomValue);
-
+                    CanvasHeight = canvasBaseHeight * zoomValue;
+                    CanvasWidth = canvasBaseWidth * zoomValue;
                 }
 
             }
@@ -243,6 +244,7 @@ namespace Gallery
             }
         }
 
+        private static double canvasBaseWidth;
         private static double _CanvasWidth;
         public double CanvasWidth
         {
@@ -256,17 +258,17 @@ namespace Gallery
                 RaisePropertyChanged(this, "CanvasWidth");
             }
         }
-
-        private static double _CanvasJHeight;
+        private static double canvasBaseHeight;
+        private static double _CanvasHeight;
         public double CanvasHeight
         {
             get
             {
-                return _CanvasJHeight;
+                return _CanvasHeight;
             }
             set
             {
-                _CanvasJHeight = value;
+                _CanvasHeight = value;
                 RaisePropertyChanged(this, "CanvasHeight");
             }
         }
@@ -348,6 +350,8 @@ namespace Gallery
                 CanvasContent.Children.Add(loadedImage);
                 CanvasWidth = loadedBitmap.Width;
                 CanvasHeight = loadedBitmap.Height;
+                canvasBaseHeight = loadedBitmap.Height;
+                canvasBaseWidth = loadedBitmap.Width;
                 Debug.WriteLine("filepath" + filepath);
                 Debug.WriteLine("absolutepath"+filepath.AbsolutePath);
                 Debug.WriteLine("absoluteuri" + filepath.AbsoluteUri);
@@ -367,6 +371,8 @@ namespace Gallery
             CanvasContent.Children.Add(loadedImage);
             CanvasHeight = loadedBitmap.Height;
             CanvasWidth = loadedBitmap.Width;
+            canvasBaseHeight = loadedBitmap.Height;
+            canvasBaseWidth = loadedBitmap.Width;
             CanExecuteS = true;
         }
 
