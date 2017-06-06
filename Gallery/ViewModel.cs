@@ -17,6 +17,17 @@ namespace Gallery
 {
     class ViewModel : INotifyPropertyChanged
     {
+        public enum DrawingTool
+        {
+            Rectangle,
+            Triangle,
+            Circle,
+            Line,
+            Eraser,
+            Pencil,
+            Paintbrush
+        }
+
         public ViewModel()
         {
             Debug.WriteLine("INIT VIEWMODEL");
@@ -30,6 +41,9 @@ namespace Gallery
         public event PropertyChangedEventHandler PropertyChanged ;
         private Uri filepath;
         private string name;
+        private DrawingTool drawingTool = DrawingTool.Pencil;
+        private bool leftMouseButtonDown = false;
+        private System.Drawing.Point currentPoint = new System.Drawing.Point();
         private Color _kolor;
         public Color Kolor
         {
@@ -128,8 +142,8 @@ namespace Gallery
             }
         }
         
-        private static Canvas _CanvasContent = new Canvas();
-        public Canvas CanvasContent
+        private static Grid _CanvasContent = new Grid();
+        public Grid CanvasContent
         {
             get
             {
@@ -152,8 +166,8 @@ namespace Gallery
             line.StrokeThickness = 4;
             line.X1 = 5;
             line.Y1 = 5;
-            line.X2 = 55;
-            line.Y2 = 55;
+            line.X2 = 555;
+            line.Y2 = 555;
             CanvasContent.Children.Add(line);
             RaisePropertyChanged(this, "CanvasContent");
 
@@ -168,6 +182,7 @@ namespace Gallery
             openfiledialog.Title = "Please select an image file.";
             if (openfiledialog.ShowDialog() == DialogResult.OK)
             {
+                CanvasContent = new Grid();
                 filepath = new Uri(openfiledialog.FileName, UriKind.RelativeOrAbsolute);
                 name= System.IO.Path.GetFileName(filepath.LocalPath);
                 WorkspaceImage = filepath;
@@ -206,7 +221,36 @@ namespace Gallery
             }
         }
 
-
+        public void StartDrawing()
+        {
+            switch (drawingTool)
+            {
+                case DrawingTool.Pencil:
+                    break;
+                case DrawingTool.Paintbrush:
+                    break;
+                case DrawingTool.Eraser:
+                    break;
+                case DrawingTool.Line:
+                    break;
+                case DrawingTool.Triangle:
+                    break;
+                case DrawingTool.Circle:
+                    break;
+                case DrawingTool.Rectangle:
+                    break;
+            }
+            //leftMouseButtonDown = true;
+            //begin = e.GetPosition(mainCanvas);
+            //mainCanvas.CaptureMouse();
+            //Mouse.Capture(mainCanvas);
+            //lastRectangle = new Rectangle();
+            //lastRectangle.Stroke = new SolidColorBrush(rectangleColor);
+            //lastRectangle.StrokeThickness = 1;
+            //Canvas.SetLeft(lastRectangle, begin.X);
+            //Canvas.SetTop(lastRectangle, begin.Y);
+            //mainCanvas.Children.Add(lastRectangle);
+        }
 
     }
 
