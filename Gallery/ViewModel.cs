@@ -319,16 +319,28 @@ namespace Gallery
             renderBitmap.Render(CanvasContent);
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.DefaultExt = System.IO.Path.GetExtension(name);
-
-            if (sfd.ShowDialog() == DialogResult.OK)
-                using (FileStream outStream = new FileStream(sfd.FileName, FileMode.Create))
+            try
             {
-                PngBitmapEncoder encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
-                encoder.Save(outStream);
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    using (FileStream outStream = new FileStream(sfd.FileName, FileMode.Create))
+                    {
+                        PngBitmapEncoder encoder = new PngBitmapEncoder();
+                        encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+                        encoder.Save(outStream);
+                    }
+                }
             }
-            CanvasContent.LayoutTransform = transform;
-            InitFav();
+            catch (IOException ex)
+            {
+                Debug.WriteLine("File is in use");
+                System.Windows.Forms.MessageBox.Show("Nie można nadpisać ulubionego obrazu!");
+            }
+            finally
+            {
+                CanvasContent.LayoutTransform = transform;
+                InitFav();
+            }
         }
 
         public void Open()
