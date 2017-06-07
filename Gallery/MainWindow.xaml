@@ -33,7 +33,7 @@
                     </StackPanel>
                 </Button>
                 <Label HorizontalAlignment="Center" VerticalAlignment="Center" Height="25">Favourites</Label>
-                <Button Command="{Binding AddtoFav}" Visibility="{Binding Path=CanExecuteS, Converter={StaticResource BoolToVis}}" Margin="5" Height="30" Name="AddToFavouritesButton">
+                <Button Command="{Binding AddtoFav}" Visibility="{Binding Path=CanExecuteS, Converter={StaticResource BoolToVis}}" Margin="1" Height="30" Name="AddToFavouritesButton">
                     <StackPanel Orientation="Horizontal" Width="{Binding Width, ElementName=AddToFavouritesButton}">
                         <Image HorizontalAlignment="Left" Source="Icons/Plus.png" Width="{Binding Height, ElementName=AddToFavouritesButton}" Height="{Binding Height, ElementName=AddToFavouritesButton}" />
                         <Label>Add</Label>
