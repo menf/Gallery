@@ -42,6 +42,7 @@ namespace Gallery
             ListboxItems = new ObservableCollection<Item>();
             InitFav();
             ZoomValue = 1;
+            PixelSize = 1;
         }
 
         public ObservableCollection<Item> ListboxItems { get; set; }
@@ -108,7 +109,19 @@ namespace Gallery
                 RaisePropertyChanged(this, "KolorBrush");
             }
         }
-
+        private int _pixelSize;
+        public int PixelSize
+        {
+            get
+            {
+                return _pixelSize;
+            }
+            set
+            {
+                _pixelSize = value;
+                RaisePropertyChanged(this, "PixelSize");
+            }
+        }
 
         private bool _canExecute;
         private bool _canExecuteR;
@@ -205,6 +218,16 @@ namespace Gallery
             {
                 Debug.WriteLine("rem from fav ");
                 return _removeFav ?? (_removeFav = new CommandHandler(param => RemoveFromFavourites(param), _canExecute));
+            }
+        }
+
+        private ICommand _changePixel;
+        public ICommand ChangePixel
+        {
+            get
+            {
+                Debug.WriteLine("rem from fav ");
+                return _changePixel ?? (_changePixel = new CommandHandler(param => ChangeToolPixel(param), _canExecute));
             }
         }
 
@@ -416,8 +439,13 @@ namespace Gallery
             }
         }
              
+        private void ChangeToolPixel(object param)
+        {
+            PixelSize += Int32.Parse((string)param);
+            if (PixelSize < 1 ||PixelSize>100) PixelSize = 1;
+        }
 
-            
+
      private void ChangeColor()
         {
             var dialog = new ColorDialog();
@@ -509,7 +537,7 @@ namespace Gallery
                 case DrawingTool.Pencil:
                     figura = new Polyline();
                     figura.Stroke = KolorBrush;
-                    figura.StrokeThickness = 1;
+                    figura.StrokeThickness = PixelSize;
                     points = new PointCollection();
                     points.Add(e.GetPosition(CanvasContent));
                     ((Polyline)figura).Points = points;
@@ -518,7 +546,7 @@ namespace Gallery
                 case DrawingTool.Paintbrush:
                     figura = new Polyline();
                     figura.Stroke = KolorBrush;
-                    figura.StrokeThickness = 3;
+                    figura.StrokeThickness = PixelSize+2;
                     points = new PointCollection();
                     points.Add(e.GetPosition(CanvasContent));
                     ((Polyline)figura).Points = points;
@@ -527,7 +555,7 @@ namespace Gallery
                 case DrawingTool.Eraser:
                     figura = new Polyline();
                     figura.Stroke = Brushes.White;
-                    figura.StrokeThickness = 2;
+                    figura.StrokeThickness = PixelSize;
                     points = new PointCollection();
                     points.Add(e.GetPosition(CanvasContent));
                     ((Polyline)figura).Points = points;
@@ -536,7 +564,7 @@ namespace Gallery
                 case DrawingTool.Line:
                     figura = new Line();
                     figura.Stroke = KolorBrush;
-                    figura.StrokeThickness = 2;
+                    figura.StrokeThickness = PixelSize;
                     ((Line)figura).X1 = beginPoint.X;
                     ((Line)figura).Y1 = beginPoint.Y;
                     ((Line)figura).X2 = beginPoint.X;
@@ -546,7 +574,7 @@ namespace Gallery
                 case DrawingTool.Triangle:
                     figura = new System.Windows.Shapes.Polygon();
                     figura.Stroke = KolorBrush;
-                    figura.StrokeThickness = 2;
+                    figura.StrokeThickness = PixelSize;
                     points = new PointCollection();
                     points.Add(new Point(beginPoint.X, beginPoint.Y));
                     ((Polygon)figura).Points = points;
@@ -555,13 +583,13 @@ namespace Gallery
                 case DrawingTool.Ellipse:
                     figura = new Ellipse();
                     figura.Stroke = KolorBrush;
-                    figura.StrokeThickness = 2;
+                    figura.StrokeThickness = PixelSize;
                     CanvasContent.Children.Add(figura);
                     break;
                 case DrawingTool.Rectangle:
                     figura = new Rectangle();
                     figura.Stroke = KolorBrush;
-                    figura.StrokeThickness = 2;
+                    figura.StrokeThickness = 3;
                     CanvasContent.Children.Add(figura);
                     break;
             }

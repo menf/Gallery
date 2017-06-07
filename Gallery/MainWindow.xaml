@@ -8,7 +8,7 @@
         xmlns:cmd ="http://www.galasoft.ch/mvvmlight"
         xmlns:local="clr-namespace:Gallery"
         mc:Ignorable="d"
-        Title="Gallery" Height="350" Width="525">
+        Title="Gallery" Height="350" Width="525" Icon="Icons/logo.png">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>

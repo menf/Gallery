@@ -52,6 +52,7 @@
                 <Button Command="{Binding ChangeTool}" CommandParameter="6" Margin="5" Name="BrushButton" Height="30" Width="35">
                     <Image Source="Icons/Brush.png"  Width="{Binding Height, ElementName=BrushButton}" Height="{Binding Height, ElementName=BrushButton}" />
                 </Button>
+                <Label Margin="5" Height="30" Width="35" Content="{Binding PixelSize}" />
             </StackPanel>
         </StackPanel>
         <StackPanel Grid.Column="2" >
@@ -62,6 +63,10 @@
             <StackPanel Margin="5" Orientation="Horizontal">
                 <Label Height="45" Width="45" Background="{Binding KolorBrush}" />
                 <Button Command="{Binding PickColor}" Margin="10 0 0 0">Pick a color</Button>
+                <StackPanel Margin="5" Orientation="Horizontal">
+                    <Button Height="30" Width="35" Command="{Binding ChangePixel}" CommandParameter="1" Margin="3">/\</Button>
+                    <Button Height="30" Width="35" Command="{Binding ChangePixel}" CommandParameter="-1" Margin="3">\/</Button>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </Grid>
