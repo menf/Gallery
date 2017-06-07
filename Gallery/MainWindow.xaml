@@ -42,7 +42,7 @@
             </StackPanel>
             <ScrollViewer Margin="0 40 0 0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <ListView Name="lista" ItemsSource="{Binding ListboxItems}" Margin="5 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <ListView BorderBrush="Transparent" Name="lista" ItemsSource="{Binding ListboxItems}" Margin="5 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border Margin="5" BorderThickness="1" BorderBrush="SteelBlue" CornerRadius="4">
@@ -69,24 +69,27 @@
             </ScrollViewer>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="1">
-            <ScrollViewer Padding="5 5 0 0" Margin="0 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+            <Border BorderThickness="1" BorderBrush="Gray" >
+
+                <ScrollViewer Padding="5 5 0 0" Margin="0 0 0 5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                           VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <Grid Name="canvas" HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}"
+                    <Grid Name="canvas" HorizontalAlignment="Left" VerticalAlignment="Top" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}"
                         AllowDrop="True">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <cmd:EventToCommand Command="{Binding StartDrawing}" PassEventArgsToCommand="True" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseMove">
-                            <cmd:EventToCommand Command="{Binding Draw}" PassEventArgsToCommand="True" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="MouseLeftButtonUp">
-                            <cmd:EventToCommand Command="{Binding StopDrawing}" PassEventArgsToCommand="True" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <ContentPresenter  RenderOptions.BitmapScalingMode="NearestNeighbor" Content="{Binding CanvasContent}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                </Grid>
-            </ScrollViewer>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeftButtonDown">
+                                <cmd:EventToCommand Command="{Binding StartDrawing}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseMove">
+                                <cmd:EventToCommand Command="{Binding Draw}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="MouseLeftButtonUp">
+                                <cmd:EventToCommand Command="{Binding StopDrawing}" PassEventArgsToCommand="True" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ContentPresenter  RenderOptions.BitmapScalingMode="NearestNeighbor" Content="{Binding CanvasContent}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    </Grid>
+                </ScrollViewer>
+            </Border>
         </Grid>
     </Grid>
 </Window>
