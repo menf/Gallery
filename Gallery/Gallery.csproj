@@ -147,7 +147,10 @@
     <Resource Include="Icons\Minus.png" />
     <Resource Include="Icons\Plus.png" />
   </ItemGroup>
-  <ItemGroup>
+    <ItemGroup>
+    <Resource Include="Icons\ColorPicker.png" />
+  </ItemGroup>
+    <ItemGroup>
     <Resource Include="Icons\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

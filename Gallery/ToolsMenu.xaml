@@ -61,12 +61,17 @@
                 <Slider Value="{Binding ZoomValue,Mode=TwoWay}" Maximum="30" TickPlacement="BottomRight" TickFrequency="1" IsSnapToTickEnabled="True"  Width="160" Margin="0 3 0 0" Minimum="1" />
             </StackPanel>
             <StackPanel Margin="5" Orientation="Horizontal">
-                <Label Height="45" Width="45" Background="{Binding KolorBrush}" />
-                <Button Command="{Binding PickColor}" Margin="10 0 0 0">Pick a color</Button>
+                <Label Height="30" Width="35" Background="{Binding KolorBrush}"/>
+                <Button Name="ColorPicker" Command="{Binding PickColor}" Margin="5" Padding="-1" Height="30" Width="35">
+                                        <Image Source="Icons/ColorPicker.png"  Width="{Binding Height, ElementName=ColorPicker}" Height="{Binding Height, ElementName=ColorPicker}" />
+
+                </Button>
                 <StackPanel Margin="5" Orientation="Horizontal">
                     <Button Height="30" Width="35" Command="{Binding ChangePixel}" CommandParameter="1" Margin="3">/\</Button>
                     <Button Height="30" Width="35" Command="{Binding ChangePixel}" CommandParameter="-1" Margin="3">\/</Button>
                 </StackPanel>
+                <Label Height="45" Width="45" Background="{Binding KolorBrush}" />
+                <Button Command="{Binding PickColor}" Margin="10 0 0 0">Pick a color</Button>
             </StackPanel>
         </StackPanel>
     </Grid>
